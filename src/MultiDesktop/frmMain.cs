@@ -1,204 +1,304 @@
-﻿using Microsoft.Win32;
 using System;
-using System.Diagnostics;
-using System.Drawing;
+using System.IO;
+using System.Linq;
 using System.Windows.Forms;
+using MultiDesktop.Models;
+using MultiDesktop.Services;
 
 namespace MultiDesktop
 {
-    public partial class frmMain : Sunny.UI.UIForm
+    public partial class frmMain : Form
     {
+        private DesktopConfigData _config;
+        private DesktopInfo _selectedDesktop;
+        private bool _isUpdating;
+
         public frmMain()
         {
             InitializeComponent();
         }
 
-        private void btnAddDesktop_Click(object sender, EventArgs e)
-        {
-            IniManager.writeString(cobDesktopList.SelectedIndex.ToString(), "DesktopPath", txtDesktopLocation.Text, AppCommon.IniPath);
-            IniManager.writeString(cobDesktopList.SelectedIndex.ToString(), "DesktopName", txtDesktopName.Text, AppCommon.IniPath);
-            IniManager.writeString(cobDesktopList.SelectedIndex.ToString(), "DesktopBack", txtDesktopBackground.Text, AppCommon.IniPath);
-            IniManager.writeString("0", "FirstRun", "False", AppCommon.IniPath);
-            IniManager.writeString("0", "DesktopCount", cobDesktopList.Items.Count.ToString(), AppCommon.IniPath);
-            cobDesktopList.Items.Add("新桌面"+cobDesktopList .Items .Count .ToString ());
-            cobDesktopList.SelectedIndex = cobDesktopList.Items.Count - 1;
-            txtDesktopBackground.Text = "";
-            txtDesktopLocation.Text = "";
-            txtDesktopName.Text = "新桌面" + cobDesktopList.Items.Count.ToString();
-        }
-
-        private void btnSetDesktopLocation_Click(object sender, EventArgs e)
-        {
-            if( folderBrowserDialog1.ShowDialog()==DialogResult.OK)
-            {
-                txtDesktopLocation.Text = folderBrowserDialog1.SelectedPath;
-            }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if(openFileDialog1 .ShowDialog ()==DialogResult.OK)
-            {
-
-            }
-        }
-
-        private void cobDesktopList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-
-            if (cobDesktopList.Text == "默认桌面")
-            {
-                btnDeleteDesktop.Enabled = false;
-                txtDesktopName.Enabled = false;
-            }
-            else
-            {
-                btnDeleteDesktop.Enabled = true;
-                txtDesktopName.Enabled = true;
-            }
-            txtDesktopName.Text  = cobDesktopList.Text;
-            txtDesktopLocation.Text = IniManager.getString(cobDesktopList .SelectedIndex .ToString (), "DesktopPath", desktopPath, AppCommon.IniPath);
-            txtDesktopBackground.Text = IniManager.getString(cobDesktopList.SelectedIndex.ToString(), "DesktopBack", WallpaperHelper.GetWallpaperPath(), AppCommon.IniPath);
-        }
-
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            IniManager.writeString(cobDesktopList.SelectedIndex.ToString(), "DesktopPath", txtDesktopLocation.Text, AppCommon.IniPath);
-            IniManager.writeString(cobDesktopList.SelectedIndex.ToString(), "DesktopName", txtDesktopName.Text, AppCommon.IniPath);
-            IniManager.writeString(cobDesktopList.SelectedIndex.ToString(), "DesktopBack", txtDesktopBackground.Text, AppCommon.IniPath);
-            IniManager.writeString("0", "FirstRun", "False", AppCommon.IniPath);
-            IniManager.writeString("0", "DesktopCount", cobDesktopList .Items .Count .ToString (), AppCommon.IniPath);
-
-        }
-
-        private void btnDeleteDesktop_Click(object sender, EventArgs e)
-        {
-            cobDesktopList.Items.RemoveAt(cobDesktopList.SelectedIndex);
-            int deletenumber = cobDesktopList .SelectedIndex;
-            IniManager.DeleteSection(AppCommon.IniPath,deletenumber.ToString ());
-            for (int i=deletenumber+1; i < cobDesktopList .Items .Count+1 ; i++)
-            {
-                IniFileHelper.RenameSection(AppCommon.IniPath, i.ToString (), i.ToString());
-            }
-            cobDesktopList .Items .Remove (cobDesktopList.SelectedIndex);
-            txtDesktopBackground.Text = "";
-            txtDesktopLocation.Text = "";
-        }
-
         private void frmMain_Load(object sender, EventArgs e)
         {
-            // 获取当前DPI比例
-            float dpiX, dpiY;
-            using (Graphics g = CreateGraphics())
-            {
-                dpiX = g.DpiX;
-                dpiY = g.DpiY;
-            }
-            // 根据DPI比例调整控件尺寸
-            float scaleFactor = dpiX / 96f; // 96 DPI 是标准DPI
+            _config = AppState.Config ?? JsonConfigManager.Load(AppCommon.ConfigPath);
+            RefreshDesktopList();
+        }
 
-            foreach (Control control in Controls)
+        #region 列表管理
+
+        private void RefreshDesktopList()
+        {
+            _isUpdating = true;
+            lvDesktops.Items.Clear();
+
+            if (_config?.Desktops == null) { _isUpdating = false; return; }
+
+            foreach (var desktop in _config.Desktops)
             {
-                control.Width = (int)(control.Width * scaleFactor);
-                control.Height = (int)(control.Height * scaleFactor);
-                control.Left = (int)(control.Left * scaleFactor);
-                control.Top = (int)(control.Top * scaleFactor);
+                var item = new ListViewItem(desktop.Name);
+                item.SubItems.Add(desktop.GetEffectivePath());
+                item.Tag = desktop;
+                lvDesktops.Items.Add(item);
             }
-            Height = (int)(342 * scaleFactor);
-            Width = (int)(656 * scaleFactor);
-            titleHeight = Convert.ToInt32(titleHeight * scaleFactor);
-            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            if (IniManager.getString("0", "FirstRun", "True", AppCommon.IniPath) == "True")
+
+            if (lvDesktops.Items.Count > 0)
+                lvDesktops.Items[0].Selected = true;
+
+            _isUpdating = false;
+            AutoFitListViewColumns();
+        }
+
+        private void lvDesktops_Resize(object sender, EventArgs e)
+        {
+            AutoFitListViewColumns();
+        }
+
+        private void AutoFitListViewColumns()
+        {
+            if (lvDesktops.Columns.Count < 2) return;
+            int w = lvDesktops.ClientSize.Width - 4;
+            if (w < 100) return;
+            lvDesktops.Columns[0].Width = w * 40 / 100;
+            lvDesktops.Columns[1].Width = w * 60 / 100;
+        }
+
+        private void lvDesktops_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_isUpdating) return;
+
+            if (lvDesktops.SelectedItems.Count > 0)
             {
-                txtDesktopLocation.Text = desktopPath;
+                _selectedDesktop = lvDesktops.SelectedItems[0].Tag as DesktopInfo;
+                PopulateDetailPanel();
             }
             else
             {
-                txtDesktopLocation.Text = IniManager.getString("0", "DesktopPath", desktopPath, AppCommon.IniPath);
-                txtDesktopBackground .Text = IniManager.getString("0", "DesktopBack", WallpaperHelper .GetWallpaperPath (), AppCommon.IniPath);
-            }
-            int DesktopCount = Convert .ToInt16 ( IniManager.getString("0", "DesktopCount", "0", AppCommon.IniPath));
-            for (int i =1; i <= DesktopCount; i++) {
-                if(!string .IsNullOrEmpty ( IniManager.getString(i.ToString(), "DesktopName", "", AppCommon.IniPath))){
-                    cobDesktopList.Items.Add(IniManager.getString(i.ToString(), "DesktopName", "", AppCommon.IniPath));
-                }
+                _selectedDesktop = null;
+                ClearDetailPanel();
             }
         }
 
-        private void btnChangeDesktop_Click(object sender, EventArgs e)
+        #endregion
+
+        #region 详情面板
+
+        private void grpDetail_Resize(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtDesktopLocation .Text))
-            {
-                try
-                {
-                    // 修改注册表中的桌面位置
-                    ChangeDesktopLocation(txtDesktopLocation.Text);
-                    // 重启 explorer.exe 使更改生效
-                    RestartExplorer();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
-            if(!string.IsNullOrEmpty(txtDesktopBackground .Text))
-            {
-                if(txtDesktopBackground .Text != "默认壁纸")
-                {
-                    try
-                    {
-                        WallpaperChanger .SetWallpaper (txtDesktopBackground .Text);
-                    }
-                    catch {
-                        MessageBox.Show("无效的壁纸文件");
-                    }
-                }
-            }
+            const int margin = 18;
+            const int btnWidth = 42;
+            const int gap = 8;
+
+            int w = grpDetail.ClientSize.Width;
+            if (w < 100) return;
+
+            txtName.Width = w - margin * 2;
+
+            btnBrowsePath.Left = w - margin - btnWidth;
+            txtPath.Width = btnBrowsePath.Left - txtPath.Left - gap;
         }
-        static void RestartExplorer()
+
+        private void PopulateDetailPanel()
         {
-            // 结束现有的 explorer.exe 进程
-            foreach (Process process in Process.GetProcessesByName("explorer"))
-            {
-                process.Kill();
-            }
+            if (_selectedDesktop == null) return;
 
-            // 稍等片刻确保进程完全结束
-            System.Threading.Thread.Sleep(1000);
+            _isUpdating = true;
+            txtName.Text = _selectedDesktop.Name;
+            txtPath.Text = _selectedDesktop.GetEffectivePath();
 
-            // 启动新的 explorer.exe
-            Process.Start("explorer.exe");
+            bool isDefault = _selectedDesktop.IsDefault;
+            txtName.Enabled = !isDefault;
+            txtPath.Enabled = !isDefault;
+            btnBrowsePath.Enabled = !isDefault;
+            btnDelete.Enabled = !isDefault;
+            _isUpdating = false;
         }
-        static void ChangeDesktopLocation(string newPath)
+
+        private void ClearDetailPanel()
         {
-            // 获取当前用户的注册表项
-            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(
-                @"Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", true))
-            {
-                if (key == null)
-                {
-                    throw new Exception("Unable to open registry key.");
-                }
-
-                // 修改 Desktop 的值
-                key.SetValue("Desktop", newPath, RegistryValueKind.ExpandString);
-            }
-
-            // 同时更新 Shell Folders 中的值以确保兼容性
-            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(
-                @"Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders", true))
-            {
-                if (key != null)
-                {
-                    key.SetValue("Desktop", newPath, RegistryValueKind.ExpandString);
-                }
-            }
+            _isUpdating = true;
+            txtName.Text = "";
+            txtPath.Text = "";
+            txtName.Enabled = false;
+            txtPath.Enabled = false;
+            btnBrowsePath.Enabled = false;
+            btnDelete.Enabled = false;
+            _isUpdating = false;
         }
 
-        private void txtDesktopName_TextChanged(object sender, EventArgs e)
+        private void txtName_TextChanged(object sender, EventArgs e)
         {
-            cobDesktopList .Items[cobDesktopList .SelectedIndex] = txtDesktopName.Text;
+            if (_isUpdating || _selectedDesktop == null) return;
+            if (lvDesktops.SelectedItems.Count > 0)
+                lvDesktops.SelectedItems[0].Text = txtName.Text;
         }
+
+        private void btnBrowsePath_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                txtPath.Text = folderBrowserDialog.SelectedPath;
+                if (_selectedDesktop != null && lvDesktops.SelectedItems.Count > 0)
+                    lvDesktops.SelectedItems[0].SubItems[1].Text = txtPath.Text;
+            }
+        }
+
+        #endregion
+
+        #region 操作按钮
+
+        private void btnSaveDetail_Click(object sender, EventArgs e)
+        {
+            if (_selectedDesktop == null)
+            {
+                MessageBox.Show("请先选择一个桌面。", "提示",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtName.Text))
+            {
+                MessageBox.Show("桌面名称不能为空。", "提示",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtName.Focus();
+                return;
+            }
+
+            string path = txtPath.Text.Trim();
+            if (!_selectedDesktop.IsDefault)
+            {
+                if (string.IsNullOrEmpty(path))
+                {
+                    MessageBox.Show("桌面路径不能为空，请选择桌面文件夹。", "提示",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtPath.Focus();
+                    return;
+                }
+                if (!Directory.Exists(path))
+                {
+                    MessageBox.Show("桌面路径 \"" + path + "\" 不存在，请重新选择。",
+                        "路径无效", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtPath.Focus();
+                    return;
+                }
+            }
+
+            _selectedDesktop.Name = txtName.Text.Trim();
+            if (!_selectedDesktop.IsDefault)
+                _selectedDesktop.Path = path;
+
+            if (JsonConfigManager.Save(AppCommon.ConfigPath, _config))
+            {
+                if (lvDesktops.SelectedItems.Count > 0)
+                {
+                    var item = lvDesktops.SelectedItems[0];
+                    item.Text = _selectedDesktop.Name;
+                    item.SubItems[1].Text = _selectedDesktop.GetEffectivePath();
+                }
+                MessageBox.Show("保存成功。", "提示",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("保存失败，请检查文件权限。", "错误",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (_selectedDesktop == null) return;
+            if (_selectedDesktop.IsDefault)
+            {
+                MessageBox.Show("当前桌面不可删除。", "提示",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var result = MessageBox.Show(
+                "确定要删除桌面 \"" + _selectedDesktop.Name + "\" 吗？此操作不可恢复。",
+                "确认删除", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result != DialogResult.Yes) return;
+
+            _config.Desktops.Remove(_selectedDesktop);
+            for (int i = 0; i < _config.Desktops.Count; i++)
+                _config.Desktops[i].Id = i;
+
+            JsonConfigManager.Save(AppCommon.ConfigPath, _config);
+            _selectedDesktop = null;
+            RefreshDesktopList();
+        }
+
+        private void btnAddDesktop_Click(object sender, EventArgs e)
+        {
+            string baseName = "新桌面";
+            int nextId = _config.Desktops.Count > 0
+                ? _config.Desktops.Max(d => d.Id) + 1
+                : 1;
+
+            string newName = baseName + "_" + nextId;
+            int counter = 1;
+            while (_config.Desktops.Any(d => d.Name == newName))
+            {
+                counter++;
+                newName = baseName + "_" + counter;
+            }
+
+            var newDesktop = new DesktopInfo
+            {
+                Id = nextId,
+                Name = newName,
+                Path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                IsDefault = false
+            };
+
+            _config.Desktops.Add(newDesktop);
+            _config.FirstRun = false;
+            JsonConfigManager.Save(AppCommon.ConfigPath, _config);
+
+            var item = new ListViewItem(newDesktop.Name);
+            item.SubItems.Add(newDesktop.Path);
+            item.Tag = newDesktop;
+            lvDesktops.Items.Add(item);
+
+            item.Selected = true;
+            item.EnsureVisible();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void btnDeleteCurrent_Click(object sender, EventArgs e)
+        {
+            if (_selectedDesktop == null)
+            {
+                MessageBox.Show("请先在左侧列表中选择一个桌面。", "提示",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if (_selectedDesktop.IsDefault)
+            {
+                MessageBox.Show("当前桌面不可删除。", "提示",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var result = MessageBox.Show(
+                "确定要删除桌面 \"" + _selectedDesktop.Name + "\" 吗？此操作不可恢复。",
+                "确认删除", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result != DialogResult.Yes) return;
+
+            _config.Desktops.Remove(_selectedDesktop);
+            for (int i = 0; i < _config.Desktops.Count; i++)
+                _config.Desktops[i].Id = i;
+
+            JsonConfigManager.Save(AppCommon.ConfigPath, _config);
+            _selectedDesktop = null;
+            RefreshDesktopList();
+        }
+
+        #endregion
     }
 }

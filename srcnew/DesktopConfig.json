@@ -1,0 +1,17 @@
+{
+  "FirstRun" : false,
+  "Desktops" : [
+    {
+      "Id" : 0,
+      "Name" : "当前桌面",
+      "Path" : "",
+      "IsDefault" : true
+    },
+    {
+      "Id" : 1,
+      "Name" : "新桌面_1",
+      "Path" : "C:\\Users\\buger\\",
+      "IsDefault" : false
+    }
+  ]
+}

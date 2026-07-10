@@ -1,0 +1,199 @@
+object frmMain: TfrmMain
+  Left = 450
+  Height = 1058
+  Top = 180
+  Width = 1794
+  BorderStyle = bsDialog
+  Caption = '桌面管理'
+  ClientHeight = 1058
+  ClientWidth = 1794
+  DesignTimePPI = 144
+  Position = poOwnerFormCenter
+  LCLVersion = '4.8.0.0'
+  OnCreate = FormCreate
+  object pnlBottom: TPanel
+    Left = 0
+    Height = 112
+    Top = 946
+    Width = 1794
+    Align = alBottom
+    BevelOuter = bvNone
+    ClientHeight = 112
+    ClientWidth = 1794
+    TabOrder = 0
+    OnClick = pnlBottomClick
+    object btnAddDesktop: TButton
+      Left = 22
+      Height = 76
+      Top = 18
+      Width = 270
+      Caption = '+ 新建桌面'
+      Font.Height = -18
+      Font.Name = 'Microsoft YaHei UI'
+      ParentFont = False
+      TabOrder = 0
+      OnClick = btnAddDesktopClick
+    end
+    object btnDeleteCurrent: TButton
+      Left = 315
+      Height = 76
+      Top = 18
+      Width = 270
+      Caption = '删除当前桌面'
+      Font.Height = -18
+      Font.Name = 'Microsoft YaHei UI'
+      ParentFont = False
+      TabOrder = 1
+      OnClick = btnDeleteCurrentClick
+    end
+    object btnClose: TButton
+      Left = 1592
+      Height = 76
+      Top = 18
+      Width = 180
+      Anchors = [akTop, akRight]
+      Caption = '关闭'
+      TabOrder = 2
+      OnClick = btnCloseClick
+    end
+  end
+  object pnlLeft: TPanel
+    Left = 0
+    Height = 946
+    Top = 0
+    Width = 750
+    Align = alLeft
+    BevelOuter = bvNone
+    ClientHeight = 946
+    ClientWidth = 750
+    TabOrder = 1
+    object lvDesktops: TListView
+      Left = 0
+      Height = 946
+      Top = 0
+      Width = 750
+      Align = alClient
+      Columns = <      
+        item
+          Caption = '名称'
+          Width = 300
+        end      
+        item
+          Caption = '路径'
+          Width = 405
+        end>
+      Font.Height = -20
+      Font.Name = 'Microsoft YaHei UI'
+      GridLines = True
+      HideSelection = False
+      ParentFont = False
+      ReadOnly = True
+      RowSelect = True
+      TabOrder = 0
+      ViewStyle = vsReport
+      OnResize = lvDesktopsResize
+      OnSelectItem = lvDesktopsSelectItem
+    end
+  end
+  object Splitter1: TSplitter
+    Left = 750
+    Height = 946
+    Top = 0
+    Width = 3
+  end
+  object pnlRight: TPanel
+    Left = 753
+    Height = 946
+    Top = 0
+    Width = 1041
+    Align = alClient
+    BevelOuter = bvNone
+    ClientHeight = 946
+    ClientWidth = 1041
+    TabOrder = 3
+    object grpDetail: TGroupBox
+      Left = 0
+      Height = 946
+      Top = 0
+      Width = 1041
+      Align = alClient
+      Caption = '桌面属性'
+      ClientHeight = 917
+      ClientWidth = 1037
+      Font.Height = -18
+      Font.Name = 'Microsoft YaHei UI'
+      ParentFont = False
+      TabOrder = 0
+      OnResize = grpDetailResize
+      object lblName: TLabel
+        Left = 33
+        Height = 24
+        Top = 68
+        Width = 72
+        Caption = '桌面名称'
+        ParentColor = False
+      end
+      object txtName: TEdit
+        Left = 40
+        Height = 35
+        Top = 112
+        Width = 897
+        Font.Height = -20
+        Font.Name = 'Microsoft YaHei UI'
+        ParentFont = False
+        TabOrder = 0
+        OnChange = txtNameChange
+      end
+      object lblPath: TLabel
+        Left = 33
+        Height = 24
+        Top = 202
+        Width = 72
+        Caption = '桌面位置'
+        ParentColor = False
+      end
+      object txtPath: TEdit
+        Left = 40
+        Height = 35
+        Top = 248
+        Width = 807
+        Font.Height = -20
+        Font.Name = 'Microsoft YaHei UI'
+        ParentFont = False
+        TabOrder = 1
+      end
+      object btnBrowsePath: TButton
+        Left = 867
+        Height = 58
+        Top = 246
+        Width = 94
+        Caption = '...'
+        TabOrder = 2
+        OnClick = btnBrowsePathClick
+      end
+      object btnSaveDetail: TButton
+        Left = 40
+        Height = 81
+        Top = 360
+        Width = 360
+        Caption = '保存'
+        TabOrder = 3
+        OnClick = btnSaveDetailClick
+      end
+      object btnDelete: TButton
+        Left = 438
+        Height = 81
+        Top = 360
+        Width = 360
+        Caption = '删除'
+        TabOrder = 4
+        OnClick = btnDeleteClick
+      end
+    end
+  end
+  object SelectDirectoryDialog1: TSelectDirectoryDialog
+    Title = '选择桌面文件夹'
+    Left = 48
+    Top = 960
+  end
+end

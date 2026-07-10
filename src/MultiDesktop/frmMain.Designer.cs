@@ -1,286 +1,295 @@
-﻿namespace MultiDesktop
+namespace MultiDesktop
 {
     partial class frmMain
     {
-        /// <summary>
-        /// 必需的设计器变量。
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// 清理所有正在使用的资源。
-        /// </summary>
-        /// <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
-            {
                 components.Dispose();
-            }
             base.Dispose(disposing);
         }
 
-        #region Windows 窗体设计器生成的代码
-
-        /// <summary>
-        /// 设计器支持所需的方法 - 不要修改
-        /// 使用代码编辑器修改此方法的内容。
-        /// </summary>
         private void InitializeComponent()
         {
-            this.cobDesktopList = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtDesktopBackground = new Sunny.UI.UITextBox();
-            this.txtDesktopLocation = new Sunny.UI.UITextBox();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnSetDesktopLocation = new Sunny.UI.UIButton();
-            this.button2 = new Sunny.UI.UIButton();
-            this.btnAddDesktop = new Sunny.UI.UIButton();
-            this.btnChangeDesktop = new Sunny.UI.UIButton();
-            this.btnSave = new Sunny.UI.UIButton();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.txtDesktopName = new Sunny.UI.UITextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.btnDeleteDesktop = new Sunny.UI.UIButton();
+            this.colName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.splitContainer = new System.Windows.Forms.SplitContainer();
+            this.lvDesktops = new System.Windows.Forms.ListView();
+            this.grpDetail = new System.Windows.Forms.GroupBox();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnSaveDetail = new System.Windows.Forms.Button();
+            this.lblPath = new System.Windows.Forms.Label();
+            this.txtPath = new System.Windows.Forms.TextBox();
+            this.btnBrowsePath = new System.Windows.Forms.Button();
+            this.lblName = new System.Windows.Forms.Label();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.pnlBottom = new System.Windows.Forms.Panel();
+            this.btnAddDesktop = new System.Windows.Forms.Button();
+            this.btnDeleteCurrent = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
+            this.splitContainer.Panel1.SuspendLayout();
+            this.splitContainer.Panel2.SuspendLayout();
+            this.splitContainer.SuspendLayout();
+            this.grpDetail.SuspendLayout();
+            this.pnlBottom.SuspendLayout();
             this.SuspendLayout();
             // 
-            // cobDesktopList
+            // colName
             // 
-            this.cobDesktopList.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.cobDesktopList.FormattingEnabled = true;
-            this.cobDesktopList.Items.AddRange(new object[] {
-            "默认桌面"});
-            this.cobDesktopList.Location = new System.Drawing.Point(163, 46);
-            this.cobDesktopList.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.cobDesktopList.MinimumSize = new System.Drawing.Size(63, 0);
-            this.cobDesktopList.Name = "cobDesktopList";
-            this.cobDesktopList.Size = new System.Drawing.Size(294, 28);
-            this.cobDesktopList.TabIndex = 0;
-            this.cobDesktopList.Text = "默认桌面";
-            this.cobDesktopList.SelectedIndexChanged += new System.EventHandler(this.cobDesktopList_SelectedIndexChanged);
-            this.cobDesktopList.Leave += new System.EventHandler(this.btnSave_Click);
+            this.colName.Text = "名称";
+            this.colName.Width = 200;
             // 
-            // label1
+            // colPath
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(47, 46);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(89, 20);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "选择桌面";
+            this.colPath.Text = "路径";
+            this.colPath.Width = 270;
             // 
-            // label2
+            // splitContainer
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(47, 119);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(89, 20);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "桌面位置";
+            this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer.Name = "splitContainer";
             // 
-            // label3
+            // splitContainer.Panel1
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(46, 164);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(89, 20);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "桌面壁纸";
+            this.splitContainer.Panel1.Controls.Add(this.lvDesktops);
+            this.splitContainer.Panel1.Padding = new System.Windows.Forms.Padding(15, 15, 15, 15);
+            this.splitContainer.Panel1MinSize = 300;
             // 
-            // txtDesktopBackground
+            // splitContainer.Panel2
             // 
-            this.txtDesktopBackground.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtDesktopBackground.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtDesktopBackground.Location = new System.Drawing.Point(163, 161);
-            this.txtDesktopBackground.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtDesktopBackground.MinimumSize = new System.Drawing.Size(1, 16);
-            this.txtDesktopBackground.Name = "txtDesktopBackground";
-            this.txtDesktopBackground.Padding = new System.Windows.Forms.Padding(5);
-            this.txtDesktopBackground.ShowText = false;
-            this.txtDesktopBackground.Size = new System.Drawing.Size(294, 30);
-            this.txtDesktopBackground.TabIndex = 4;
-            this.txtDesktopBackground.Text = "默认壁纸";
-            this.txtDesktopBackground.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.txtDesktopBackground.Watermark = "";
-            this.txtDesktopBackground.Leave += new System.EventHandler(this.btnSave_Click);
+            this.splitContainer.Panel2.Controls.Add(this.grpDetail);
+            this.splitContainer.Panel2.Padding = new System.Windows.Forms.Padding(0, 15, 15, 15);
+            this.splitContainer.Panel2MinSize = 340;
+            this.splitContainer.Size = new System.Drawing.Size(1196, 630);
+            this.splitContainer.SplitterDistance = 500;
+            this.splitContainer.SplitterWidth = 2;
+            this.splitContainer.TabIndex = 0;
             // 
-            // txtDesktopLocation
+            // lvDesktops
             // 
-            this.txtDesktopLocation.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtDesktopLocation.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtDesktopLocation.Location = new System.Drawing.Point(163, 116);
-            this.txtDesktopLocation.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtDesktopLocation.MinimumSize = new System.Drawing.Size(1, 16);
-            this.txtDesktopLocation.Name = "txtDesktopLocation";
-            this.txtDesktopLocation.Padding = new System.Windows.Forms.Padding(5);
-            this.txtDesktopLocation.ShowText = false;
-            this.txtDesktopLocation.Size = new System.Drawing.Size(294, 30);
-            this.txtDesktopLocation.TabIndex = 5;
-            this.txtDesktopLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.txtDesktopLocation.Watermark = "";
-            this.txtDesktopLocation.Leave += new System.EventHandler(this.btnSave_Click);
+            this.lvDesktops.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colName,
+            this.colPath});
+            this.lvDesktops.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvDesktops.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lvDesktops.FullRowSelect = true;
+            this.lvDesktops.GridLines = true;
+            this.lvDesktops.HideSelection = false;
+            this.lvDesktops.Location = new System.Drawing.Point(15, 15);
+            this.lvDesktops.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lvDesktops.MultiSelect = false;
+            this.lvDesktops.Name = "lvDesktops";
+            this.lvDesktops.Size = new System.Drawing.Size(470, 600);
+            this.lvDesktops.TabIndex = 0;
+            this.lvDesktops.UseCompatibleStateImageBehavior = false;
+            this.lvDesktops.View = System.Windows.Forms.View.Details;
+            this.lvDesktops.SelectedIndexChanged += new System.EventHandler(this.lvDesktops_SelectedIndexChanged);
+            this.lvDesktops.Resize += new System.EventHandler(this.lvDesktops_Resize);
             // 
-            // btnSetDesktopLocation
+            // grpDetail
             // 
-            this.btnSetDesktopLocation.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSetDesktopLocation.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnSetDesktopLocation.Location = new System.Drawing.Point(482, 113);
-            this.btnSetDesktopLocation.MinimumSize = new System.Drawing.Size(1, 1);
-            this.btnSetDesktopLocation.Name = "btnSetDesktopLocation";
-            this.btnSetDesktopLocation.Size = new System.Drawing.Size(99, 33);
-            this.btnSetDesktopLocation.TabIndex = 6;
-            this.btnSetDesktopLocation.Text = "...";
-            this.btnSetDesktopLocation.TipsFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnSetDesktopLocation.Click += new System.EventHandler(this.btnSetDesktopLocation_Click);
+            this.grpDetail.Controls.Add(this.btnDelete);
+            this.grpDetail.Controls.Add(this.btnSaveDetail);
+            this.grpDetail.Controls.Add(this.lblPath);
+            this.grpDetail.Controls.Add(this.txtPath);
+            this.grpDetail.Controls.Add(this.btnBrowsePath);
+            this.grpDetail.Controls.Add(this.lblName);
+            this.grpDetail.Controls.Add(this.txtName);
+            this.grpDetail.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpDetail.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.grpDetail.Location = new System.Drawing.Point(0, 15);
+            this.grpDetail.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpDetail.Name = "grpDetail";
+            this.grpDetail.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpDetail.Size = new System.Drawing.Size(679, 600);
+            this.grpDetail.TabIndex = 0;
+            this.grpDetail.TabStop = false;
+            this.grpDetail.Text = "桌面属性";
+            this.grpDetail.Resize += new System.EventHandler(this.grpDetail_Resize);
             // 
-            // button2
+            // btnDelete
             // 
-            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button2.Location = new System.Drawing.Point(482, 161);
-            this.button2.MinimumSize = new System.Drawing.Size(1, 1);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(99, 30);
-            this.button2.TabIndex = 7;
-            this.button2.Text = "...";
-            this.button2.TipsFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btnDelete.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnDelete.Location = new System.Drawing.Point(292, 240);
+            this.btnDelete.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(240, 54);
+            this.btnDelete.TabIndex = 9;
+            this.btnDelete.Text = "删除";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnSaveDetail
+            // 
+            this.btnSaveDetail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            this.btnSaveDetail.FlatAppearance.BorderSize = 0;
+            this.btnSaveDetail.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSaveDetail.ForeColor = System.Drawing.Color.White;
+            this.btnSaveDetail.Location = new System.Drawing.Point(27, 240);
+            this.btnSaveDetail.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSaveDetail.Name = "btnSaveDetail";
+            this.btnSaveDetail.Size = new System.Drawing.Size(240, 54);
+            this.btnSaveDetail.TabIndex = 8;
+            this.btnSaveDetail.Text = "保存";
+            this.btnSaveDetail.UseVisualStyleBackColor = false;
+            this.btnSaveDetail.Click += new System.EventHandler(this.btnSaveDetail_Click);
+            // 
+            // lblPath
+            // 
+            this.lblPath.AutoSize = true;
+            this.lblPath.Location = new System.Drawing.Point(22, 135);
+            this.lblPath.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblPath.Name = "lblPath";
+            this.lblPath.Size = new System.Drawing.Size(82, 24);
+            this.lblPath.TabIndex = 2;
+            this.lblPath.Text = "桌面位置";
+            // 
+            // txtPath
+            // 
+            this.txtPath.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtPath.Location = new System.Drawing.Point(27, 165);
+            this.txtPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtPath.Name = "txtPath";
+            this.txtPath.Size = new System.Drawing.Size(538, 32);
+            this.txtPath.TabIndex = 3;
+            // 
+            // btnBrowsePath
+            // 
+            this.btnBrowsePath.Location = new System.Drawing.Point(578, 164);
+            this.btnBrowsePath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBrowsePath.Name = "btnBrowsePath";
+            this.btnBrowsePath.Size = new System.Drawing.Size(63, 39);
+            this.btnBrowsePath.TabIndex = 4;
+            this.btnBrowsePath.Text = "...";
+            this.btnBrowsePath.UseVisualStyleBackColor = true;
+            this.btnBrowsePath.Click += new System.EventHandler(this.btnBrowsePath_Click);
+            // 
+            // lblName
+            // 
+            this.lblName.AutoSize = true;
+            this.lblName.Location = new System.Drawing.Point(22, 45);
+            this.lblName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(82, 24);
+            this.lblName.TabIndex = 0;
+            this.lblName.Text = "桌面名称";
+            // 
+            // txtName
+            // 
+            this.txtName.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtName.Location = new System.Drawing.Point(27, 75);
+            this.txtName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(598, 32);
+            this.txtName.TabIndex = 1;
+            this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
+            // 
+            // pnlBottom
+            // 
+            this.pnlBottom.Controls.Add(this.btnAddDesktop);
+            this.pnlBottom.Controls.Add(this.btnDeleteCurrent);
+            this.pnlBottom.Controls.Add(this.btnClose);
+            this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlBottom.Location = new System.Drawing.Point(0, 630);
+            this.pnlBottom.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlBottom.Name = "pnlBottom";
+            this.pnlBottom.Padding = new System.Windows.Forms.Padding(15, 12, 15, 12);
+            this.pnlBottom.Size = new System.Drawing.Size(1196, 75);
+            this.pnlBottom.TabIndex = 1;
             // 
             // btnAddDesktop
             // 
-            this.btnAddDesktop.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAddDesktop.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnAddDesktop.Location = new System.Drawing.Point(482, 45);
-            this.btnAddDesktop.MinimumSize = new System.Drawing.Size(1, 1);
+            this.btnAddDesktop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(167)))), ((int)(((byte)(69)))));
+            this.btnAddDesktop.FlatAppearance.BorderSize = 0;
+            this.btnAddDesktop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddDesktop.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnAddDesktop.ForeColor = System.Drawing.Color.White;
+            this.btnAddDesktop.Location = new System.Drawing.Point(15, 12);
+            this.btnAddDesktop.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAddDesktop.Name = "btnAddDesktop";
-            this.btnAddDesktop.Size = new System.Drawing.Size(99, 29);
-            this.btnAddDesktop.TabIndex = 8;
-            this.btnAddDesktop.Text = "新建桌面";
-            this.btnAddDesktop.TipsFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnAddDesktop.Size = new System.Drawing.Size(180, 51);
+            this.btnAddDesktop.TabIndex = 0;
+            this.btnAddDesktop.Text = "+ 新建桌面";
+            this.btnAddDesktop.UseVisualStyleBackColor = false;
             this.btnAddDesktop.Click += new System.EventHandler(this.btnAddDesktop_Click);
             // 
-            // btnChangeDesktop
+            // btnDeleteCurrent
             // 
-            this.btnChangeDesktop.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnChangeDesktop.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnChangeDesktop.Location = new System.Drawing.Point(50, 229);
-            this.btnChangeDesktop.MinimumSize = new System.Drawing.Size(1, 1);
-            this.btnChangeDesktop.Name = "btnChangeDesktop";
-            this.btnChangeDesktop.Size = new System.Drawing.Size(151, 61);
-            this.btnChangeDesktop.TabIndex = 9;
-            this.btnChangeDesktop.Text = "切换至选中桌面";
-            this.btnChangeDesktop.TipsFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnChangeDesktop.Click += new System.EventHandler(this.btnChangeDesktop_Click);
+            this.btnDeleteCurrent.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnDeleteCurrent.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnDeleteCurrent.Location = new System.Drawing.Point(210, 12);
+            this.btnDeleteCurrent.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnDeleteCurrent.Name = "btnDeleteCurrent";
+            this.btnDeleteCurrent.Size = new System.Drawing.Size(180, 51);
+            this.btnDeleteCurrent.TabIndex = 2;
+            this.btnDeleteCurrent.Text = "删除当前桌面";
+            this.btnDeleteCurrent.UseVisualStyleBackColor = true;
+            this.btnDeleteCurrent.Click += new System.EventHandler(this.btnDeleteCurrent_Click);
             // 
-            // btnSave
+            // btnClose
             // 
-            this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSave.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnSave.Location = new System.Drawing.Point(223, 229);
-            this.btnSave.MinimumSize = new System.Drawing.Size(1, 1);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(177, 61);
-            this.btnSave.TabIndex = 10;
-            this.btnSave.Text = "保存选定桌面设置";
-            this.btnSave.TipsFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClose.Location = new System.Drawing.Point(1061, 12);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(120, 51);
+            this.btnClose.TabIndex = 1;
+            this.btnClose.Text = "关闭";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
-            // openFileDialog1
+            // folderBrowserDialog
             // 
-            this.openFileDialog1.Filter = "图片|*.jpg|无损图片|*.png|图片|*.jpeg|位图|*.bmp";
-            // 
-            // txtDesktopName
-            // 
-            this.txtDesktopName.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtDesktopName.Enabled = false;
-            this.txtDesktopName.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtDesktopName.Location = new System.Drawing.Point(163, 80);
-            this.txtDesktopName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtDesktopName.MinimumSize = new System.Drawing.Size(1, 16);
-            this.txtDesktopName.Name = "txtDesktopName";
-            this.txtDesktopName.Padding = new System.Windows.Forms.Padding(5);
-            this.txtDesktopName.ShowText = false;
-            this.txtDesktopName.Size = new System.Drawing.Size(294, 30);
-            this.txtDesktopName.TabIndex = 13;
-            this.txtDesktopName.Text = "默认桌面";
-            this.txtDesktopName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.txtDesktopName.Watermark = "";
-            this.txtDesktopName.TextChanged += new System.EventHandler(this.txtDesktopName_TextChanged);
-            this.txtDesktopName.Leave += new System.EventHandler(this.btnSave_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(47, 83);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(89, 20);
-            this.label4.TabIndex = 12;
-            this.label4.Text = "桌面名称";
-            // 
-            // btnDeleteDesktop
-            // 
-            this.btnDeleteDesktop.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnDeleteDesktop.Enabled = false;
-            this.btnDeleteDesktop.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnDeleteDesktop.Location = new System.Drawing.Point(442, 229);
-            this.btnDeleteDesktop.MinimumSize = new System.Drawing.Size(1, 1);
-            this.btnDeleteDesktop.Name = "btnDeleteDesktop";
-            this.btnDeleteDesktop.Size = new System.Drawing.Size(164, 61);
-            this.btnDeleteDesktop.TabIndex = 14;
-            this.btnDeleteDesktop.Text = "删除选定桌面";
-            this.btnDeleteDesktop.TipsFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnDeleteDesktop.Click += new System.EventHandler(this.btnDeleteDesktop_Click);
+            this.folderBrowserDialog.Description = "选择桌面文件夹";
             // 
             // frmMain
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(656, 342);
-            this.Controls.Add(this.btnDeleteDesktop);
-            this.Controls.Add(this.txtDesktopName);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.btnChangeDesktop);
-            this.Controls.Add(this.btnAddDesktop);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.btnSetDesktopLocation);
-            this.Controls.Add(this.txtDesktopLocation);
-            this.Controls.Add(this.txtDesktopBackground);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.cobDesktopList);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1196, 705);
+            this.Controls.Add(this.splitContainer);
+            this.Controls.Add(this.pnlBottom);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MaximizeBox = false;
             this.Name = "frmMain";
-            this.Text = "多桌面助手";
-            this.ZoomScaleRect = new System.Drawing.Rectangle(19, 19, 584, 315);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "桌面管理";
             this.Load += new System.EventHandler(this.frmMain_Load);
-            this.Click += new System.EventHandler(this.btnSave_Click);
-            this.Leave += new System.EventHandler(this.btnSave_Click);
+            this.splitContainer.Panel1.ResumeLayout(false);
+            this.splitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
+            this.splitContainer.ResumeLayout(false);
+            this.grpDetail.ResumeLayout(false);
+            this.grpDetail.PerformLayout();
+            this.pnlBottom.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
-        #endregion
-
-        private System.Windows.Forms.ComboBox cobDesktopList;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        
-        private Sunny.UI.UITextBox txtDesktopBackground;
-        private Sunny.UI.UITextBox txtDesktopLocation;
-        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private Sunny.UI.UIButton btnSetDesktopLocation;
-        private Sunny.UI.UIButton button2;
-        private Sunny.UI.UIButton btnAddDesktop;
-        private Sunny.UI.UIButton btnChangeDesktop;
-        private Sunny.UI.UIButton btnSave;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private Sunny.UI.UITextBox txtDesktopName;
-        private System.Windows.Forms.Label label4;
-        private Sunny.UI.UIButton btnDeleteDesktop;
+        private System.Windows.Forms.SplitContainer splitContainer;
+        private System.Windows.Forms.ListView lvDesktops;
+        private System.Windows.Forms.GroupBox grpDetail;
+        private System.Windows.Forms.Label lblName;
+        private System.Windows.Forms.TextBox txtName;
+        private System.Windows.Forms.Label lblPath;
+        private System.Windows.Forms.TextBox txtPath;
+        private System.Windows.Forms.Button btnBrowsePath;
+        private System.Windows.Forms.Button btnSaveDetail;
+        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Panel pnlBottom;
+        private System.Windows.Forms.Button btnAddDesktop;
+        private System.Windows.Forms.Button btnDeleteCurrent;
+        private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
+        private System.Windows.Forms.ColumnHeader colName;
+        private System.Windows.Forms.ColumnHeader colPath;
     }
 }
-

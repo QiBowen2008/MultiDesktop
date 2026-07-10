@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="D:\Program\lazarus\fpc\3.2.2\bin\x86_64-win64\fpc.exe" Date="1556502373"/>
+  <Params Value="-MDelphi -Sh -gw3 -gl -WG -l -vewnhibq -FiD:\buger\项目\MultiDesktop\srcnew\lib\x86_64-win64 -FuD:\buger\项目\MultiDesktop\srcnew\ -FuD:\Program\lazarus\components\ideintf\units\x86_64-win64\win32 -FuD:\Program\lazarus\components\lazcontrols\lib\x86_64-win64\win32 -FuD:\Program\lazarus\lcl\units\x86_64-win64\win32 -FuD:\Program\lazarus\lcl\units\x86_64-win64 -FuD:\Program\lazarus\components\freetype\lib\x86_64-win64 -FuD:\Program\lazarus\components\debuggerintf\lib\x86_64-win64 -FuD:\Program\lazarus\components\buildintf\units\x86_64-win64 -FuD:\Program\lazarus\components\lazutils\lib\x86_64-win64 -FuD:\Program\lazarus\components\lazdebuggers\lazdebuggerintf\lib\x86_64-win64 -FuD:\Program\lazarus\packager\units\x86_64-win64 -FUD:\buger\项目\MultiDesktop\srcnew\lib\x86_64-win64\ -FED:\buger\项目\MultiDesktop\srcnew\ -oD:\buger\项目\MultiDesktop\srcnew\MultiDesktop.exe -dLCL -dLCLwin32 MultiDesktop.lpr"/>
+</CONFIG>

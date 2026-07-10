@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36025.13 d17.14
+# Visual Studio Version 18
+VisualStudioVersion = 18.8.11925.187
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiDesktop", "MultiDesktop\MultiDesktop.csproj", "{559749BF-02DF-476B-A371-29093EF95F95}"
 EndProject

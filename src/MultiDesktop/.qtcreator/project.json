@@ -1,0 +1,31 @@
+{
+    "$schema": "https://download.qt.io/official_releases/qtcreator/latest/installer_source/jsonschemas/project.json",
+    "build.configuration": [
+        {
+            "name": "dotnet build",
+            "steps": [
+                {
+                    "arguments": [
+                        "build"
+                    ],
+                    "executable": "dotnet",
+                    "workingDirectory": "%{ActiveProject:ProjectDirectory}"
+                }
+            ]
+        }
+    ],
+    "files.exclude": [
+        "bin",
+        ".qtcreator/project.json.user"
+    ],
+    "targets": [
+        {
+            "arguments": [
+                "run"
+            ],
+            "executable": "dotnet",
+            "name": "dotnet run",
+            "workingDirectory": "%{ActiveProject:ProjectDirectory}"
+        }
+    ]
+}
