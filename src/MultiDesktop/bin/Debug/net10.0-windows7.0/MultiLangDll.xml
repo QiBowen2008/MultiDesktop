@@ -1,0 +1,114 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+MultiLangDll
+</name>
+</assembly>
+<members>
+<member name="M:MultiLangDll.QtLang.SetShowLang(System.String)">
+ <summary>
+ 设置当前程序要显示的语言  重启生效
+ </summary>
+ <param name="ShowLang">例:en</param>
+</member>
+<member name="M:MultiLangDll.QtLang.ReadLangShow">
+ <summary>
+ 显示上次SetShowLang设置显示语言,如果未设置 则为当前线程默认语言
+ </summary>
+</member>
+<member name="M:MultiLangDll.QtLang.SysReadLang">
+ <summary>
+ 返回上次使用ReadLangShow设置的语言,未使用过返回当前线程语言
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:MultiLangDll.QtLang.GetAllLangName">
+ <summary>
+ 所有多语言系统支持的语言
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:MultiLangDll.QtLang.GetLangName">
+ <summary>
+ 所有多语言系统支持的语言
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:MultiLangDll.QtLang.GetShowName_NativeName(System.String)">
+ <summary>
+ 获取对应语言本地化语言名称列表
+ </summary>
+ <param name="Lang"></param>
+ <returns></returns>
+</member>
+<member name="M:MultiLangDll.QtLang.GetShowName_NativeName(System.String,System.String)">
+ <summary>
+ 获取对应语言本地化语言语种名称
+ </summary>
+ <param name="Lang"></param>
+ <param name="VEnglisName"></param>
+ <returns></returns>
+</member>
+<member name="M:MultiLangDll.QtLang.GetEnglishName(System.String)">
+ <summary>
+ 获取语言对应英文名称  例如;en 返回:English
+ </summary>
+ <param name="Lang">例如;en , af ,zh</param>
+ <returns>获取失败返回空</returns>
+</member>
+<member name="M:MultiLangDll.QtLang.GetDisplayName(System.String)">
+ <summary>
+ 获取语言本地显示名称 例如;en:中文 en:English ja:日本語 ar:العربية
+ </summary>
+ <param name="Lang"></param>
+ <returns></returns>
+</member>
+<member name="M:MultiLangDll.QtLang.GetChineseName(System.String)">
+ <summary>
+ 获取 语言对应中文名称
+ </summary>
+ <param name="Lang">例如;en 返回 英语</param>
+ <returns>获取失败返回空</returns>
+</member>
+<member name="M:MultiLangDll.QtLang.GetEnglishChineseName(System.String)">
+ <summary>
+根据英语名称返回中文名称 例如:English 返回:英语
+ </summary>
+ <param name="EnglishName">例如:English</param>
+ <returns>返回例如:英语</returns>
+</member>
+<member name="M:MultiLangDll.QtLang.GetLangName_CuList">
+ <summary>
+ 获取所有语言支持的区域列表
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:MultiLangDll.QtLang.F(System.String)">
+ <summary>
+ 获取对应翻译内容
+ </summary>
+ <param name="VContent">内容</param>
+ <returns></returns>
+</member>
+<member name="M:MultiLangDll.QtLang.F(System.String,System.String)">
+ <summary>
+ 获取对应翻译内容
+ </summary>
+ <param name="VContent">内容</param>
+ <param name="DataId">翻译数据ID</param>
+ <returns></returns>
+</member>
+<member name="T:MultiLangDll.NoMuSCan">
+ <summary>
+ 在类模块方法使用此属性后跳过扫描与翻译
+ </summary>
+</member>
+<member name="M:MultiLangDll.NoMuSCan.#ctor(System.Boolean,System.Boolean)">
+ <summary>
+ </summary>
+ <param name="NoScan">是否禁止获取字符串内容,可控制内容查找一键批量添加Mu方法时,在查找时跳过此处内容</param>
+ <param name="NoSynCode">禁止多语言系统同步项目内添加了Mu(),F()方法的字符串,跳过内容将不进行翻译</param>
+</member>
+</members>
+</doc>

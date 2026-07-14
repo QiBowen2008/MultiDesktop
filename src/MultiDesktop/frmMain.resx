@@ -1,0 +1,476 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Microsoft ResX Schema
+
+    Version 2.0
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
+    associated with the data types.
+
+    Example:
+
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+
+    There are any number of "resheader" rows that contain simple
+    name/value pairs.
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
+    mimetype set.
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
+    extensible. For a given mimetype the value must be set accordingly:
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed below.
+
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="tblDesktopList.EmptyText" xml:space="preserve">
+    <value>还没有桌面</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="tblDesktopList.Location" type="System.Drawing.Point, System.Drawing">
+    <value>85, 81</value>
+  </data>
+  <data name="tblDesktopList.Size" type="System.Drawing.Size, System.Drawing">
+    <value>829, 480</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="tblDesktopList.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tblDesktopList.Name" xml:space="preserve">
+    <value>tblDesktopList</value>
+  </data>
+  <data name="&gt;&gt;tblDesktopList.Type" xml:space="preserve">
+    <value>AntdUI.Table, AntdUI, Culture=neutral, PublicKeyToken=0e24e5118ea3d6af</value>
+  </data>
+  <data name="&gt;&gt;tblDesktopList.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tblDesktopList.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft YaHei UI, 15pt</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>85, 30</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>167, 39</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>桌面管理器</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="btnAddDesktop.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 15pt</value>
+  </data>
+  <data name="btnAddDesktop.Location" type="System.Drawing.Point, System.Drawing">
+    <value>30, 582</value>
+  </data>
+  <data name="btnAddDesktop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>143, 57</value>
+  </data>
+  <data name="btnAddDesktop.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="btnAddDesktop.Text" xml:space="preserve">
+    <value>添加桌面</value>
+  </data>
+  <data name="&gt;&gt;btnAddDesktop.Name" xml:space="preserve">
+    <value>btnAddDesktop</value>
+  </data>
+  <data name="&gt;&gt;btnAddDesktop.Type" xml:space="preserve">
+    <value>AntdUI.Button, AntdUI, Culture=neutral, PublicKeyToken=0e24e5118ea3d6af</value>
+  </data>
+  <data name="&gt;&gt;btnAddDesktop.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnAddDesktop.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="btnDeleteDesktop.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="btnDeleteDesktop.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 15pt</value>
+  </data>
+  <data name="btnDeleteDesktop.Location" type="System.Drawing.Point, System.Drawing">
+    <value>198, 582</value>
+  </data>
+  <data name="btnDeleteDesktop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>143, 57</value>
+  </data>
+  <data name="btnDeleteDesktop.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="btnDeleteDesktop.Text" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="&gt;&gt;btnDeleteDesktop.Name" xml:space="preserve">
+    <value>btnDeleteDesktop</value>
+  </data>
+  <data name="&gt;&gt;btnDeleteDesktop.Type" xml:space="preserve">
+    <value>AntdUI.Button, AntdUI, Culture=neutral, PublicKeyToken=0e24e5118ea3d6af</value>
+  </data>
+  <data name="&gt;&gt;btnDeleteDesktop.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnDeleteDesktop.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="btnChangeDesktop.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="btnChangeDesktop.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 15pt</value>
+  </data>
+  <data name="btnChangeDesktop.Location" type="System.Drawing.Point, System.Drawing">
+    <value>347, 582</value>
+  </data>
+  <data name="btnChangeDesktop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>238, 57</value>
+  </data>
+  <data name="btnChangeDesktop.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="btnChangeDesktop.Text" xml:space="preserve">
+    <value>切换到选中桌面</value>
+  </data>
+  <data name="&gt;&gt;btnChangeDesktop.Name" xml:space="preserve">
+    <value>btnChangeDesktop</value>
+  </data>
+  <data name="&gt;&gt;btnChangeDesktop.Type" xml:space="preserve">
+    <value>AntdUI.Button, AntdUI, Culture=neutral, PublicKeyToken=0e24e5118ea3d6af</value>
+  </data>
+  <data name="&gt;&gt;btnChangeDesktop.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnChangeDesktop.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="btnEditDesktop.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="btnEditDesktop.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 15pt</value>
+  </data>
+  <data name="btnEditDesktop.Location" type="System.Drawing.Point, System.Drawing">
+    <value>591, 582</value>
+  </data>
+  <data name="btnEditDesktop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 57</value>
+  </data>
+  <data name="btnEditDesktop.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="btnEditDesktop.Text" xml:space="preserve">
+    <value>编辑选中桌面</value>
+  </data>
+  <data name="&gt;&gt;btnEditDesktop.Name" xml:space="preserve">
+    <value>btnEditDesktop</value>
+  </data>
+  <data name="&gt;&gt;btnEditDesktop.Type" xml:space="preserve">
+    <value>AntdUI.Button, AntdUI, Culture=neutral, PublicKeyToken=0e24e5118ea3d6af</value>
+  </data>
+  <data name="&gt;&gt;btnEditDesktop.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnEditDesktop.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <metadata name="notifyIcon1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>179, 17</value>
+  </metadata>
+  <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 130</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStrip1.Name" xml:space="preserve">
+    <value>contextMenuStrip1</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="notifyIcon1.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAICAAAAAAIAAiBQAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAAgAAAAIAgGAAAAc3p69AAABOlJ
+        REFUeAHtwAOgJFmWxvH/d+6NyMyncktjrm3btm3btm3btm1pjJ6WSq+eMjMi7vl2t2p6poc7a9Wv8t+L
+        yn8vKv+9qPz3on7+xb33svOrgWOZFjY2kAZDGjBgY2OnhcE2GIxMWrbB2GlhMNhpSAuDDQaTlm2wbsX+
+        bH3APeee/tRxfPDYDIZMm7ScxglOYwNp0pi0nNiZsrHTkJYTnMbNGHBipyEtp3GC0xjsZjZCeujWbFdv
+        eNvdXjbjNBgyjdOQxganwZBp06xMsDGZchonOI0NpLGxE5wpJzgNaWzZmXKCW4KhAvVoSpzGaZyAwWmc
+        xmlscGJsOcFpOy3SOI0T0pi0nLabZbCbweA0TuxMOQ02TsjELVM1m3EaErDJxE6LhEwjg5tlAwnOlBOc
+        xmkwOC0M2VIYnMhpbEyzbCsTk5bT2EBaTqhuxmmc2Aa3FMZOIFFL4zQYOy2nsbHTIo2N3ZCduIGNnZYM
+        TuO03SyM0jaJ3BIbnKZ6MrbJBGxoJg2k5QTbuBkbnMZpSCuNScsJbgkGG9wsGzITG2jINm7GtpyAIdMm
+        rZotsYFETuM0NpAmjWmW09jgNE7jNCSyjRPcwDZOY2MSnMhp2Zi0shkby1Y247QwVDfjNDY4jRNsII0T
+        nIkTnBaGTJu0nGBjZ8oNsLGx03Ji0mQa0rKx03JamUAap7GhZmIncjPYkOC0nMaJALtZTmNjpyFNGjuB
+        BLcEQxrcDLYyMWk5sdNyGoydljNxgo2rJ8vGbhY2adnNwjKZcqLMhASn5QSnMeBmkcYGp3Eip7ExaWUa
+        0rIxaWVaTkOCE7BVsyU20IzT2CkSnJbT2MYJpMk0NiYtp+UEp3EaDJmYtDDKNE5DGieyjRPbQLMyDQmV
+        ZpzIaWxMokxMppzYBjKVaUiwkZvB4DROSGNaCkuZCQY3kwk2JlNOQyIbnMZpnFBbw2TKCU7LaTByQtrQ
+        LAxOII3TOMEJtrGxW8oJOHEaLLtZTmMLEpxgg9MmrUyDoXpK2UAap0ljmmUbG5w2zcoEbGzsNKTlBKdl
+        Y6dFM2nsTEhjA5lyQtomLaflBBvTUjXTplk22NgtZWO3FAg3ywa3BIMTOY2NnSknkJYNTtvNsoE0mYCN
+        0zgtp3EChkwgoXqysHGCbbkZp+UEY5zYLYWx07Kx05CWm7GBhMzEibBxgtM4DYZMm0SZQBonYCsbrk7j
+        NE5wGqfB4DROsIFmnJYTbMtpbJlEmbabhcG2neBm2TZpOcFppTFpnBYG0rhBzcmQxmkyARsn2DaJMhMS
+        nMYJtu20SMtpnBYWmcY2pOU0TuQ0ToMBg1vKCU7sTDlFdbPThmbZQBqncSLbOMFpSJOWaZbT2ECaTION
+        E5yW09iYtLIZg2kpp7ANBidygjNV3SzSOI3TYHCaNHYCLYUhjd1S2Dix03IaGzsNaaWx09AsG5yGtJxg
+        p5zgZtuArWxJzWachjRpTFpO4wQbnIYEp+U0TsDIaZzGaTmNLWzjZjmN02AgITNxAoZsKQxOjJGOv80H
+        XbQ5jgGDAdLYXGFjAwYbsLEBjJMrDLbBYAM23/MZHwTAe37Ot4DN93zWB4HhPT7rm8FgG+DWwPoYzK1O
+        sI3T2IDBaZzgNE5jGxuwcQIGp3Ea0jgNNjZgg40zcRrMFQlOg9nF/hzx34vKfy8q/72o/PfiHwFZFg8p
+        kRRUMQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="notifyIcon1.Text" xml:space="preserve">
+    <value>多桌面切换</value>
+  </data>
+  <data name="notifyIcon1.Visible" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="itmDesktopList.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 30</value>
+  </data>
+  <data name="itmDesktopList.Text" xml:space="preserve">
+    <value>切换到</value>
+  </data>
+  <data name="设置ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 30</value>
+  </data>
+  <data name="设置ToolStripMenuItem.Text" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="关于ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 30</value>
+  </data>
+  <data name="关于ToolStripMenuItem.Text" xml:space="preserve">
+    <value>关于</value>
+  </data>
+  <data name="toolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>131, 6</value>
+  </data>
+  <data name="itmExit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 30</value>
+  </data>
+  <data name="itmExit.Text" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="btnSet.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 15pt</value>
+  </data>
+  <data name="btnSet.Location" type="System.Drawing.Point, System.Drawing">
+    <value>805, 582</value>
+  </data>
+  <data name="btnSet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 57</value>
+  </data>
+  <data name="btnSet.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="btnSet.Text" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="&gt;&gt;btnSet.Name" xml:space="preserve">
+    <value>btnSet</value>
+  </data>
+  <data name="&gt;&gt;btnSet.Type" xml:space="preserve">
+    <value>AntdUI.Button, AntdUI, Culture=neutral, PublicKeyToken=0e24e5118ea3d6af</value>
+  </data>
+  <data name="&gt;&gt;btnSet.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnSet.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="btnAbout.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 15pt</value>
+  </data>
+  <data name="btnAbout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>391, 653</value>
+  </data>
+  <data name="btnAbout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 57</value>
+  </data>
+  <data name="btnAbout.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="btnAbout.Text" xml:space="preserve">
+    <value>关于软件</value>
+  </data>
+  <data name="&gt;&gt;btnAbout.Name" xml:space="preserve">
+    <value>btnAbout</value>
+  </data>
+  <data name="&gt;&gt;btnAbout.Type" xml:space="preserve">
+    <value>AntdUI.Button, AntdUI, Culture=neutral, PublicKeyToken=0e24e5118ea3d6af</value>
+  </data>
+  <data name="&gt;&gt;btnAbout.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnAbout.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>11, 24</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>993, 726</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>多桌面切换</value>
+  </data>
+  <data name="&gt;&gt;notifyIcon1.Name" xml:space="preserve">
+    <value>notifyIcon1</value>
+  </data>
+  <data name="&gt;&gt;notifyIcon1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NotifyIcon, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;itmDesktopList.Name" xml:space="preserve">
+    <value>itmDesktopList</value>
+  </data>
+  <data name="&gt;&gt;itmDesktopList.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;设置ToolStripMenuItem.Name" xml:space="preserve">
+    <value>设置ToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;设置ToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;关于ToolStripMenuItem.Name" xml:space="preserve">
+    <value>关于ToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;关于ToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem2.Name" xml:space="preserve">
+    <value>toolStripMenuItem2</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;itmExit.Name" xml:space="preserve">
+    <value>itmExit</value>
+  </data>
+  <data name="&gt;&gt;itmExit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>frmMain</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>

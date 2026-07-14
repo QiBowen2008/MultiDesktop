@@ -1,0 +1,51 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:MainDataTable="DesktopList" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="DesktopList">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="桌面名称" type="xs:string" minOccurs="0" />
+                <xs:element name="桌面路径" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <DesktopList>
+    <桌面名称>eee</桌面名称>
+    <桌面路径>C:\Users\buger\Documents\untitled\build</桌面路径>
+  </DesktopList>
+  <DesktopList>
+    <桌面名称>共同</桌面名称>
+    <桌面路径>C:\Users\buger\Documents\untitled\build\Desktop_Qt_6_11_1_MinGW_64_bit_Debug</桌面路径>
+  </DesktopList>
+  <DesktopList>
+    <桌面名称>默认</桌面名称>
+    <桌面路径>D:\buger\Desktop</桌面路径>
+  </DesktopList>
+  <DesktopList>
+    <桌面名称>测试</桌面名称>
+    <桌面路径>D:\buger</桌面路径>
+  </DesktopList>
+  <DesktopList>
+    <桌面名称>分的高分</桌面名称>
+    <桌面路径>D:\buger\Pictures</桌面路径>
+  </DesktopList>
+  <DesktopList>
+    <桌面名称>大苏打水水</桌面名称>
+    <桌面路径>D:\buger\Projects</桌面路径>
+  </DesktopList>
+  <DesktopList>
+    <桌面名称>当时说的都是</桌面名称>
+    <桌面路径>D:\buger\Projects\AntdUI</桌面路径>
+  </DesktopList>
+  <DesktopList>
+    <桌面名称>噩微微的</桌面名称>
+    <桌面路径>D:\buger\Projects\AntdUI\.git</桌面路径>
+  </DesktopList>
+</NewDataSet>

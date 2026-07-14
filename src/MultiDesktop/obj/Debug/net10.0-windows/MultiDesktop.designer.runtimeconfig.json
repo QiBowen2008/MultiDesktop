@@ -1,0 +1,55 @@
+{
+  "runtimeOptions": {
+    "tfm": "net10.0",
+    "frameworks": [
+      {
+        "name": "Microsoft.NETCore.App",
+        "version": "10.0.0"
+      },
+      {
+        "name": "Microsoft.WindowsDesktop.App",
+        "version": "10.0.0"
+      }
+    ],
+    "additionalProbingPaths": [
+      "C:\\Users\\buger\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\buger\\.nuget\\packages",
+      "D:\\Program\\VS2026\\Share\\NuGetPackages"
+    ],
+    "configProperties": {
+      "Microsoft.Extensions.DependencyInjection.VerifyOpenGenericServiceTrimmability": true,
+      "System.ComponentModel.DefaultValueAttribute.IsSupported": false,
+      "System.ComponentModel.Design.IDesignerHost.IsSupported": false,
+      "System.ComponentModel.TypeConverter.EnableUnsafeBinaryFormatterInDesigntimeLicenseContextSerialization": false,
+      "System.ComponentModel.TypeDescriptor.IsComObjectDescriptorSupported": false,
+      "System.Data.DataSet.XmlSerializationIsSupported": false,
+      "System.Diagnostics.Tracing.EventSource.IsSupported": false,
+      "System.Drawing.Design.UITypeEditor.IsSupported": false,
+      "System.Linq.Enumerable.IsSizeOptimized": true,
+      "System.Net.SocketsHttpHandler.Http3Support": false,
+      "System.Reflection.Metadata.MetadataUpdater.IsSupported": false,
+      "System.Resources.ResourceManager.AllowCustomResourceTypes": false,
+      "System.Resources.UseSystemResourceKeys": false,
+      "System.Runtime.CompilerServices.RuntimeFeature.IsDynamicCodeSupported": false,
+      "System.Runtime.InteropServices.BuiltInComInterop.IsSupported": false,
+      "System.Runtime.InteropServices.EnableConsumingManagedCodeFromNativeHosting": false,
+      "System.Runtime.InteropServices.EnableCppCLIHostActivation": false,
+      "System.Runtime.InteropServices.Marshalling.EnableGeneratedComInterfaceComImportInterop": false,
+      "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": false,
+      "System.StartupHookProvider.IsSupported": false,
+      "System.Text.Encoding.EnableUnsafeUTF7Encoding": false,
+      "System.Text.Json.JsonSerializer.IsReflectionEnabledByDefault": false,
+      "System.Threading.Thread.EnableAutoreleasePool": false,
+      "System.Windows.Forms.ActiveXImpl.IsSupported": false,
+      "System.Windows.Forms.Binding.IsSupported": false,
+      "System.Windows.Forms.Control.AreDesignTimeFeaturesSupported": false,
+      "System.Windows.Forms.Control.UseComponentModelRegisteredTypes": true,
+      "System.Windows.Forms.ImageIndexConverter.IsSupported": false,
+      "System.Windows.Forms.MdiWindowDialog.IsSupported": false,
+      "System.Windows.Forms.Primitives.TypeConverterHelper.UseComponentModelRegisteredTypes": true,
+      "System.Linq.Expressions.CanEmitObjectArrayDelegate": false,
+      "CSWINRT_USE_WINDOWS_UI_XAML_PROJECTIONS": false,
+      "Microsoft.NETCore.DotNetHostPolicy.SetAppPaths": true
+    }
+  }
+}

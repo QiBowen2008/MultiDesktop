@@ -1,0 +1,256 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\multidesktop\\frmset.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|solutionrelative:multidesktop\\frmset.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\multidesktop\\frmmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|solutionrelative:multidesktop\\frmmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|d:\\buger\\projects\\multidesktop\\multidesktop\\multidesktop\\frmmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|solutionrelative:multidesktop\\frmmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|d:\\buger\\projects\\multidesktop\\multidesktop\\multidesktop\\frmclose.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|solutionrelative:multidesktop\\frmclose.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\multidesktop\\frmclose.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|solutionrelative:multidesktop\\frmclose.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|d:\\buger\\projects\\multidesktop\\multidesktop\\multidesktop\\multidesktop.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|solutionrelative:multidesktop\\multidesktop.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|d:\\buger\\projects\\multidesktop\\multidesktop\\multidesktop\\frmabout.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|solutionrelative:multidesktop\\frmabout.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|d:\\buger\\projects\\multidesktop\\multidesktop\\multidesktop\\frmset.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|solutionrelative:multidesktop\\frmset.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\multidesktop\\properties\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}",
+      "RelativeMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|solutionrelative:multidesktop\\properties\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|d:\\buger\\projects\\multidesktop\\multidesktop\\multidesktop\\frmabout.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|solutionrelative:multidesktop\\frmabout.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|d:\\buger\\projects\\multidesktop\\multidesktop\\multidesktop\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|solutionrelative:multidesktop\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\multidesktop\\frmadddesktop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|solutionrelative:multidesktop\\frmadddesktop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|d:\\buger\\projects\\multidesktop\\multidesktop\\multidesktop\\frmmain.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|solutionrelative:multidesktop\\frmmain.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|d:\\buger\\projects\\multidesktop\\multidesktop\\multidesktop\\properties\\resources.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3B73B5AB-3A58-E5D2-23E4-DD3BD74326AD}|MultiDesktop\\MultiDesktop.csproj|solutionrelative:multidesktop\\properties\\resources.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 8,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "frmClose.cs",
+              "DocumentMoniker": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\frmClose.cs",
+              "RelativeDocumentMoniker": "MultiDesktop\\frmClose.cs",
+              "ToolTip": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\frmClose.cs",
+              "RelativeToolTip": "MultiDesktop\\frmClose.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T12:37:28.835Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "frmAbout.cs",
+              "DocumentMoniker": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\frmAbout.cs",
+              "RelativeDocumentMoniker": "MultiDesktop\\frmAbout.cs",
+              "ToolTip": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\frmAbout.cs",
+              "RelativeToolTip": "MultiDesktop\\frmAbout.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAQwDEAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T12:14:11.407Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "frmAbout.cs [\u8BBE\u8BA1]",
+              "DocumentMoniker": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\frmAbout.cs",
+              "RelativeDocumentMoniker": "MultiDesktop\\frmAbout.cs",
+              "ToolTip": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\frmAbout.cs [\u8BBE\u8BA1]",
+              "RelativeToolTip": "MultiDesktop\\frmAbout.cs [\u8BBE\u8BA1]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T12:09:38.076Z",
+              "EditorCaption": " [\u8BBE\u8BA1]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MultiDesktop",
+              "DocumentMoniker": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\MultiDesktop.csproj",
+              "RelativeDocumentMoniker": "MultiDesktop\\MultiDesktop.csproj",
+              "ToolTip": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\MultiDesktop.csproj",
+              "RelativeToolTip": "MultiDesktop\\MultiDesktop.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-07-14T11:49:14.375Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "frmMain.cs",
+              "DocumentMoniker": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\frmMain.cs",
+              "RelativeDocumentMoniker": "MultiDesktop\\frmMain.cs",
+              "ToolTip": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\frmMain.cs",
+              "RelativeToolTip": "MultiDesktop\\frmMain.cs",
+              "ViewState": "AgIAAG4AAAAAAAAAAAA7wHYAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T01:17:58.966Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "frmClose.cs [\u8BBE\u8BA1]",
+              "DocumentMoniker": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\frmClose.cs",
+              "RelativeDocumentMoniker": "MultiDesktop\\frmClose.cs",
+              "ToolTip": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\frmClose.cs [\u8BBE\u8BA1]",
+              "RelativeToolTip": "MultiDesktop\\frmClose.cs [\u8BBE\u8BA1]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T01:17:27.136Z",
+              "EditorCaption": " [\u8BBE\u8BA1]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "frmSet.cs",
+              "DocumentMoniker": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\frmSet.cs",
+              "RelativeDocumentMoniker": "MultiDesktop\\frmSet.cs",
+              "ToolTip": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\frmSet.cs",
+              "RelativeToolTip": "MultiDesktop\\frmSet.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-13T13:05:52.864Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "frmSet.cs [\u8BBE\u8BA1]",
+              "DocumentMoniker": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\frmSet.cs",
+              "RelativeDocumentMoniker": "MultiDesktop\\frmSet.cs",
+              "ToolTip": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\frmSet.cs [\u8BBE\u8BA1]",
+              "RelativeToolTip": "MultiDesktop\\frmSet.cs [\u8BBE\u8BA1]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-13T13:05:51.783Z",
+              "EditorCaption": " [\u8BBE\u8BA1]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "frmMain.cs [\u8BBE\u8BA1]",
+              "DocumentMoniker": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\frmMain.cs",
+              "RelativeDocumentMoniker": "MultiDesktop\\frmMain.cs",
+              "ToolTip": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\frmMain.cs [\u8BBE\u8BA1]",
+              "RelativeToolTip": "MultiDesktop\\frmMain.cs [\u8BBE\u8BA1]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-13T13:05:14.312Z",
+              "EditorCaption": " [\u8BBE\u8BA1]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\Program.cs",
+              "RelativeDocumentMoniker": "MultiDesktop\\Program.cs",
+              "ToolTip": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\Program.cs",
+              "RelativeToolTip": "MultiDesktop\\Program.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAYwCwAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-13T12:55:49.121Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "frmAddDesktop.cs [\u8BBE\u8BA1]",
+              "DocumentMoniker": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\frmAddDesktop.cs",
+              "RelativeDocumentMoniker": "MultiDesktop\\frmAddDesktop.cs",
+              "ToolTip": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\frmAddDesktop.cs [\u8BBE\u8BA1]",
+              "RelativeToolTip": "MultiDesktop\\frmAddDesktop.cs [\u8BBE\u8BA1]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-13T12:53:33.531Z",
+              "EditorCaption": " [\u8BBE\u8BA1]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Settings.settings",
+              "DocumentMoniker": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\Properties\\Settings.settings",
+              "RelativeDocumentMoniker": "MultiDesktop\\Properties\\Settings.settings",
+              "ToolTip": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\Properties\\Settings.settings",
+              "RelativeToolTip": "MultiDesktop\\Properties\\Settings.settings",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002767|",
+              "WhenOpened": "2026-07-13T13:07:47.474Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "frmMain.Designer.cs",
+              "DocumentMoniker": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\frmMain.Designer.cs",
+              "RelativeDocumentMoniker": "MultiDesktop\\frmMain.Designer.cs",
+              "ToolTip": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\frmMain.Designer.cs",
+              "RelativeToolTip": "MultiDesktop\\frmMain.Designer.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAArwBEAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-13T13:05:03.548Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Resources.Designer.cs",
+              "DocumentMoniker": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\Properties\\Resources.Designer.cs",
+              "RelativeDocumentMoniker": "MultiDesktop\\Properties\\Resources.Designer.cs",
+              "ToolTip": "D:\\buger\\Projects\\MultiDesktop\\MultiDesktop\\MultiDesktop\\Properties\\Resources.Designer.cs",
+              "RelativeToolTip": "MultiDesktop\\Properties\\Resources.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-13T12:53:31.885Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
