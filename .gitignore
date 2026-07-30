@@ -1,0 +1,48 @@
+## Build outputs
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+[Rr]eleaseAOT/
+*_Debug/
+*_Release/
+
+## Native AOT publish
+*.nupkg
+*.snupkg
+publish/
+
+## Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+## Build artifacts
+*.exe
+*.dll
+*.pdb
+*.dbg
+*.cache
+*.resources
+*.sourcelink
+*.zip
+*.nupkg
+
+## Runtime generated files
+AppSettings.xml
+DesktopList.xml
+*.runtimeconfig.json
+*.deps.json
+
+## Logs
+*.log
+txt_log*.txt
+
+## OS files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store

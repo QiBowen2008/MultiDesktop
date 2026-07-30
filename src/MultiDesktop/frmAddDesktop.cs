@@ -1,0 +1,86 @@
+﻿
+
+namespace MultiDesktop
+{
+    public partial class frmAddDesktop : Form
+    {
+        public frmAddDesktop()
+        {
+            InitializeComponent();
+        }
+
+        private void btnAddDesktop_Click(object sender, EventArgs e)
+        {
+            string wallpaperStyle = cboWallpaperStyle.SelectedItem?.ToString() ?? "填充";
+            if (DesktopManager.AddDesktop(txtDesktopName.Text, txtDesktopPath.Text,
+                                           chkEnableWallpaper.Checked, txtWallpaperPath.Text,
+                                           wallpaperStyle))
+                Close();
+        }
+
+        private void btnShowFolderBrowseDialog_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                txtDesktopPath.Text = folderBrowserDialog1.SelectedPath;
+            }
+        }
+
+        private void btnBrowseWallpaper_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                txtWallpaperPath.Text = openFileDialog1.FileName;
+            }
+        }
+
+        private void chkEnableWallpaper_CheckedChanged(object sender, EventArgs e)
+        {
+            bool enabled = chkEnableWallpaper.Checked;
+            txtWallpaperPath.Enabled = enabled;
+            btnBrowseWallpaper.Enabled = enabled;
+            cboWallpaperStyle.Enabled = enabled;
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void frmAddDesktop_Load(object sender, EventArgs e)
+        {
+            txtDesktopName.Text = DesktopManager.t_DesktopName;
+            txtDesktopPath.Text = DesktopManager.t_DesktopPath;
+
+            // 默认选中"填充"
+            cboWallpaperStyle.SelectedIndex = 0;
+
+            // 编辑模式：加载已有壁纸设置
+            if (DesktopManager.IsEdit)
+            {
+                var row = DesktopManager.DesktopList.Rows[DesktopManager.IndexToChange];
+                if (row.ItemArray.Length > 2)
+                {
+                    chkEnableWallpaper.Checked = Convert.ToBoolean(row[2]);
+                    txtWallpaperPath.Text = row[3]?.ToString() ?? "";
+                }
+                if (row.ItemArray.Length > 4)
+                {
+                    string savedStyle = row[4]?.ToString() ?? "填充";
+                    int idx = cboWallpaperStyle.Items.IndexOf(savedStyle);
+                    cboWallpaperStyle.SelectedIndex = idx >= 0 ? idx : 0;
+                }
+            }
+
+            // 初始化控件启用状态
+            txtWallpaperPath.Enabled = chkEnableWallpaper.Checked;
+            btnBrowseWallpaper.Enabled = chkEnableWallpaper.Checked;
+            cboWallpaperStyle.Enabled = chkEnableWallpaper.Checked;
+        }
+
+        private void frmAddDesktop_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DesktopManager.ReSetDesktopManager();
+        }
+    }
+}
