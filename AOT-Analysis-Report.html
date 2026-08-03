@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MultiDesktop AOT 问题分析报告</title>
+<style>
+  :root {
+    --bg: #1a1a2e;
+    --surface: #16213e;
+    --surface2: #0f3460;
+    --text: #e0e0e0;
+    --text-muted: #8892b0;
+    --red: #e24b4a;
+    --red-bg: #2a1515;
+    --amber: #ef9f27;
+    --amber-bg: #2a2215;
+    --blue: #378add;
+    --blue-bg: #152535;
+    --green: #639922;
+    --green-bg: #152211;
+    --border: #233;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+    line-height: 1.7;
+    padding: 24px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+  h2 { font-size: 17px; font-weight: 600; margin-top: 32px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+  h3 { font-size: 14px; font-weight: 600; margin-top: 20px; margin-bottom: 8px; }
+  .subtitle { color: var(--text-muted); font-size: 13px; margin-bottom: 24px; }
+  .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
+  .stat { background: var(--surface); border-radius: 8px; padding: 16px; text-align: center; }
+  .stat .num { font-size: 28px; font-weight: 700; }
+  .stat .label { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+  .stat.critical .num { color: var(--red); }
+  .stat.warn .num { color: var(--amber); }
+  .stat.minor .num { color: var(--blue); }
+  .stat.quality .num { color: var(--green); }
+  .issue {
+    background: var(--surface);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    border-left: 3px solid var(--border);
+  }
+  .issue.critical { border-left-color: var(--red); background: var(--red-bg); }
+  .issue.warn { border-left-color: var(--amber); background: var(--amber-bg); }
+  .issue.minor { border-left-color: var(--blue); background: var(--blue-bg); }
+  .issue.quality { border-left-color: var(--green); background: var(--green-bg); }
+  .issue-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .issue-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
+  .code-block {
+    background: #0d1117;
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-family: "Cascadia Code", "Consolas", monospace;
+    font-size: 12px;
+    overflow-x: auto;
+    margin: 8px 0;
+    color: #c9d1d9;
+  }
+  .code-block .keyword { color: #ff7b72; }
+  .code-block .string { color: #a5d6ff; }
+  .code-block .comment { color: #8b949e; }
+  .code-block .type { color: #79c0ff; }
+  .file-ref { font-family: monospace; font-size: 12px; color: #79c0ff; }
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 6px;
+    font-weight: 500;
+  }
+  .tag.il3050 { background: #3a1515; color: #f09595; }
+  .tag.il3053 { background: #2a2215; color: #fac775; }
+  .tag.il3000 { background: #152535; color: #85b7eb; }
+  .tag.cs { background: #152211; color: #97c459; }
+  .fix {
+    background: #0d1117;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-top: 10px;
+    border-left: 2px solid var(--green);
+  }
+  .fix-label { font-size: 12px; color: var(--green); font-weight: 600; margin-bottom: 6px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 12px; }
+  th { text-align: left; padding: 8px 12px; background: var(--surface2); color: var(--text); font-weight: 600; }
+  td { padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+  td:first-child { color: var(--text); font-family: monospace; }
+  ul { list-style: none; padding-left: 0; }
+  ul li { font-size: 13px; color: var(--text-muted); padding: 3px 0; padding-left: 18px; position: relative; }
+  ul li::before { content: "→"; position: absolute; left: 0; color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<h1>MultiDesktop AOT 问题分析报告</h1>
+<p class="subtitle">项目: MultiDesktop v1.1.2.0 · .NET 10.0 WinForms · AOT 目标: win-x86</p>
+
+<div class="summary-grid">
+  <div class="stat critical">
+    <div class="num">8</div>
+    <div class="label">IL3050 严重</div>
+  </div>
+  <div class="stat warn">
+    <div class="num">6</div>
+    <div class="label">IL3053 警告</div>
+  </div>
+  <div class="stat minor">
+    <div class="num">2</div>
+    <div class="label">IL3000 次要</div>
+  </div>
+  <div class="stat quality">
+    <div class="num">9</div>
+    <div class="label">Nullable 质量</div>
+  </div>
+</div>
+
+<h2>1. 严重问题 — DataTable XML 序列化 (IL3050)</h2>
+
+<div class="issue critical">
+  <div class="issue-title">
+    <span class="tag il3050">IL3050</span>
+    DataTable.ReadXml / WriteXml 需要 DynamicCode
+  </div>
+  <div class="issue-desc">
+    <code>DataTable.ReadXml()</code> 和 <code>DataTable.WriteXml(XmlWriteMode.WriteSchema)</code> 内部使用 <code>XmlSerializer</code>，
+    后者依赖 <code>System.Reflection.Emit</code> 动态生成程序集。Native AOT 不支持运行时动态代码生成，
+    因此这些调用在 AOT 编译后<strong>运行时必然崩溃</strong>。
+  </div>
+
+  <table>
+    <tr><th>文件</th><th>行号</th><th>调用</th><th>影响</th></tr>
+    <tr><td>Program.cs</td><td>32</td><td>WriteXml("AppSettings.xml", WriteSchema)</td><td>初始化时崩溃</td></tr>
+    <tr><td>Program.cs</td><td>36</td><td>ReadXml("AppSettings.xml")</td><td>启动时崩溃</td></tr>
+    <tr><td>frmMain.cs</td><td>13</td><td>ReadXml("DesktopList.xml")</td><td>主窗体加载崩溃</td></tr>
+    <tr><td>frmMain.cs</td><td>57</td><td>WriteXml("DesktopList.xml", WriteSchema)</td><td>删除桌面时崩溃</td></tr>
+    <tr><td>frmAddDesktop.cs</td><td>29</td><td>WriteXml("DesktopList.xml", WriteSchema)</td><td>添加桌面时崩溃</td></tr>
+    <tr><td>frmSet.cs</td><td>24</td><td>WriteXml("AppSettings.xml", WriteSchema)</td><td>保存设置时崩溃</td></tr>
+    <tr><td>frmClose.cs</td><td>17</td><td>WriteXml("AppSettings.xml", WriteSchema)</td><td>退出时崩溃</td></tr>
+    <tr><td>frmClose.cs</td><td>29</td><td>WriteXml("AppSettings.xml", WriteSchema)</td><td>退出时崩溃</td></tr>
+  </table>
+
+  <div class="fix">
+    <div class="fix-label">修复方案：用 System.Text.Json 替换 DataTable XML 序列化</div>
+    <div class="code-block">
+<span class="comment">// 定义数据模型替代 DataTable</span>
+<span class="keyword">public class</span> <span class="type">AppSettingsData</span> {
+    <span class="keyword">public int</span> Color { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public int</span> ExitMode { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+}
+
+<span class="keyword">public class</span> <span class="type">DesktopEntry</span> {
+    <span class="keyword">public string</span>? Name { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public string</span>? Path { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+}
+
+<span class="comment">// 读写使用 System.Text.Json（AOT 兼容，支持 source generator）</span>
+<span class="keyword">var</span> settings = <span class="type">JsonSerializer</span>.Deserialize&lt;<span class="type">AppSettingsData</span>&gt;(File.ReadAllText(<span class="string">"AppSettings.json"</span>));
+File.WriteAllText(<span class="string">"AppSettings.json"</span>, <span class="type">JsonSerializer</span>.Serialize(settings));
+
+<span class="comment">// 桌面列表</span>
+<span class="keyword">var</span> list = <span class="type">JsonSerializer</span>.Deserialize&lt;<span class="type">List</span>&lt;<span class="type">DesktopEntry</span>&gt;&gt;(File.ReadAllText(<span class="string">"DesktopList.json"</span>));
+File.WriteAllText(<span class="string">"DesktopList.json"</span>, <span class="type">JsonSerializer</span>.Serialize(list));</div>
+  </div>
+</div>
+
+<h2>2. 警告 — 程序集级 AOT 分析警告 (IL3053)</h2>
+
+<div class="issue warn">
+  <div class="issue-title">
+    <span class="tag il3053">IL3053</span>
+    依赖程序集内部产生 AOT 分析警告
+  </div>
+  <div class="issue-desc">以下程序集在 AOT 分析阶段产生了警告，表示其内部使用了需要动态代码或反射的 API：</div>
+
+  <table>
+    <tr><th>程序集</th><th>来源</th><th>问题</th></tr>
+    <tr><td>AntdUI.dll</td><td>NuGet v2.4.2</td><td>第三方 UI 库内部使用反射/动态代码</td></tr>
+    <tr><td>System.Windows.Forms.dll</td><td>.NET 10 Runtime</td><td>WinForms 框架存在已知 AOT 限制</td></tr>
+    <tr><td>System.Windows.Forms.Primitives.dll</td><td>.NET 10 Runtime</td><td>WinForms 基础设施层</td></tr>
+    <tr><td>System.ComponentModel.TypeConverter.dll</td><td>.NET 10 Runtime</td><td>TypeConverter 依赖反射</td></tr>
+    <tr><td>System.Private.Windows.Core.dll</td><td>.NET 10 Runtime</td><td>Windows 核心互操作层</td></tr>
+    <tr><td>System.Formats.Nrbf.dll</td><td>.NET 10 Runtime</td><td>NRBF 序列化格式（WinForms 剪贴板/拖放使用）</td></tr>
+  </table>
+
+  <div class="fix">
+    <div class="fix-label">应对策略</div>
+    <ul>
+      <li><strong>AntdUI</strong>：检查 AntdUI 是否有更新版本声明 AOT 兼容；如无，需测试每个控件在 AOT 下是否正常工作</li>
+      <li><strong>WinForms</strong>：.NET 10 的 WinForms AOT 支持仍在演进中，框架级警告目前无法消除</li>
+      <li><strong>TypeConverter</strong>：确保 Designer 文件中未使用自定义 TypeConverter；WinForms 内置控件的 TypeConverter 由框架处理</li>
+      <li><strong>建议</strong>：对 AOT 构建做完整功能测试，逐一验证每个窗体和控件的显示、交互、数据绑定</li>
+    </ul>
+  </div>
+</div>
+
+<h2>3. 警告 — _SuppressWinFormsTrimError 掩盖问题</h2>
+
+<div class="issue warn">
+  <div class="issue-title">
+    <span class="tag il3053">配置风险</span>
+    _SuppressWinFormsTrimError=true 隐藏修剪错误
+  </div>
+  <div class="issue-desc">
+    <span class="file-ref">MultiDesktop.AOT.csproj:13</span> 中设置了 <code>_SuppressWinFormsTrimError=true</code>。
+    此内部标志将 WinForms 的修剪分析错误（本应导致构建失败）降级为警告，使构建能够通过。
+    但被抑制的错误<strong>可能在运行时表现为控件属性丢失、绑定失败或异常</strong>。
+  </div>
+
+  <div class="code-block">
+<span class="comment">&lt;!-- 当前配置 --&gt;</span>
+&lt;<span class="keyword">_SuppressWinFormsTrimError</span>&gt;<span class="string">true</span>&lt;/<span class="keyword">_SuppressWinFormsTrimError</span>&gt;
+
+<span class="comment">&lt;!-- 潜在风险点 --&gt;</span>
+<span class="comment">// frmMain.Designer.cs:31 — ComponentResourceManager 使用反射设置控件属性</span>
+<span class="type">ComponentResourceManager</span> resources = <span class="keyword">new</span> <span class="type">ComponentResourceManager</span>(<span class="keyword">typeof</span>(frmMain));
+resources.ApplyResources(tblDesktopList, <span class="string">"tblDesktopList"</span>);  <span class="comment">// 位置/大小/文字等</span>
+resources.ApplyResources(btnAddDesktop, <span class="string">"btnAddDesktop"</span>);</div>
+
+  <div class="fix">
+    <div class="fix-label">建议</div>
+    <ul>
+      <li>暂时保留此标志以使构建通过，但需进行完整的运行时功能测试</li>
+      <li>重点验证：所有窗体的控件位置/大小/文字是否正确显示（ApplyResources 是否生效）</li>
+      <li>长期目标：移除此标志，逐个解决暴露的修剪警告</li>
+      <li>确保所有窗体和控件类未被修剪器移除（检查 Designer 生成的 .resx 资源是否正确加载）</li>
+    </ul>
+  </div>
+</div>
+
+<h2>4. 次要 — Assembly.Location 返回空字符串 (IL3000)</h2>
+
+<div class="issue minor">
+  <div class="issue-title">
+    <span class="tag il3000">IL3000</span>
+    Assembly.Location 在单文件应用中返回空字符串
+  </div>
+  <div class="issue-desc">
+    AOT 发布生成单文件应用，<code>Assembly.Location</code> 对内嵌程序集返回空字符串。
+    此警告来自 <strong>WinForms 框架内部</strong>（非项目代码），影响范围有限：
+  </div>
+  <ul>
+    <li><code>ThreadExceptionDialog.ThreadExceptionDialog(Exception)</code> — 异常对话框中获取程序位置</li>
+    <li><code>Control.ControlVersionInfo.OwnerIsInMemoryAssembly</code> — 控件版本信息</li>
+  </ul>
+  <div class="fix">
+    <div class="fix-label">建议</div>
+    <ul>
+      <li>此为框架内部问题，项目代码无需修改</li>
+      <li>如需获取应用目录，使用 <code>AppContext.BaseDirectory</code> 而非 <code>Assembly.Location</code></li>
+      <li>验证异常对话框（未处理异常时弹出）是否正常工作</li>
+    </ul>
+  </div>
+</div>
+
+<h2>5. 代码质量 — Nullable 引用警告</h2>
+
+<div class="issue quality">
+  <div class="issue-title">
+    <span class="tag cs">CS8601/8602/8604</span>
+    9 处空引用警告
+  </div>
+  <div class="issue-desc">虽非 AOT 专有问题，但在 AOT 场景下空引用导致的 NullReferenceException 更难调试（无 JIT 可附加调试器）：</div>
+
+  <table>
+    <tr><th>文件</th><th>行号</th><th>警告</th><th>问题</th></tr>
+    <tr><td>frmSet.cs</td><td>16</td><td>CS8604</td><td>drpColorMode.Text 可能为 null 传入 TryGetValue</td></tr>
+    <tr><td>frmSet.cs</td><td>22</td><td>CS8604</td><td>drpColorMode.Text 可能为 null 传入 GetColorNum</td></tr>
+    <tr><td>frmSet.cs</td><td>23</td><td>CS8604</td><td>drpExitMode.Text 可能为 null 传入 GetExitModeNum</td></tr>
+    <tr><td>frmAddDesktop.cs</td><td>60</td><td>CS8601</td><td>t_DesktopName 可能为 null 赋给 Text</td></tr>
+    <tr><td>frmAddDesktop.cs</td><td>61</td><td>CS8601</td><td>t_DesktopPath 可能为 null 赋给 Text</td></tr>
+    <tr><td>Program.cs</td><td>42</td><td>CS8601</td><td>Columns["Key"] 可能为 null 赋给数组</td></tr>
+    <tr><td>frmMain.cs</td><td>109</td><td>CS8604</td><td>Rows[...][1].ToString() 可能为 null</td></tr>
+    <tr><td>frmMain.cs</td><td>147</td><td>CS8602</td><td>clickedItem 可能为 null 解引用</td></tr>
+    <tr><td>frmMain.cs</td><td>149</td><td>CS8604</td><td>Rows[index][1].ToString() 可能为 null</td></tr>
+  </table>
+</div>
+
+<h2>6. 其他潜在问题（编译器未检测）</h2>
+
+<div class="issue warn">
+  <div class="issue-title">DataTable 数据绑定到 AntdUI.Table</div>
+  <div class="issue-desc">
+    <span class="file-ref">frmMain.cs:21</span> — <code>tblDesktopList.DataSource = DesktopManager.DesktopList</code>
+    将 DataTable 直接绑定为数据源。数据绑定使用 <code>TypeDescriptor</code> 和 <code>PropertyDescriptor</code>（基于反射），
+    在 AOT 修剪后可能无法正确发现 DataTable 的列属性。
+  </div>
+  <div class="fix">
+    <div class="fix-label">建议</div>
+    <ul>
+      <li>如果替换 DataTable 为强类型模型（如 List&lt;DesktopEntry&gt;），数据绑定将更加 AOT 友好</li>
+      <li>或者直接手动填充 AntdUI.Table 的数据，不使用 DataSource 绑定</li>
+    </ul>
+  </div>
+</div>
+
+<div class="issue warn">
+  <div class="issue-title">frmAddDesktop.cs 残留 using MultiLangDll</div>
+  <div class="issue-desc">
+    <span class="file-ref">frmAddDesktop.cs:2</span> — <code>using MultiLangDll;</code> 未被注释掉，
+    但 AOT 项目未引用 MultiLangDll.dll。C# 编译器允许不存在的 using（如果未使用其中类型），
+    所以构建不会失败，但这是残留代码应清理。
+  </div>
+</div>
+
+<div class="issue warn">
+  <div class="issue-title">Process.Start 打开 URL 需要显式设置 UseShellExecute</div>
+  <div class="issue-desc">
+    <span class="file-ref">frmAbout.cs:23,32,44</span> — <code>Process.Start("https://...")</code>
+    在 .NET Core+ 中 <code>UseShellExecute</code> 默认为 false，直接传 URL 不会打开浏览器。
+    虽非 AOT 专有问题，但 AOT 应用中更常见此坑。
+  </div>
+  <div class="code-block">
+<span class="comment">// 修复</span>
+<span class="type">ProcessStartInfo</span> psi = <span class="keyword">new</span> <span class="type">ProcessStartInfo</span> {
+    FileName = <span class="string">"https://github.com/Qibowen2008/MultiDesktop"</span>,
+    UseShellExecute = <span class="keyword">true</span>
+};
+<span class="type">Process</span>.Start(psi);</div>
+</div>
+
+<h2>修复优先级</h2>
+<table>
+  <tr><th>优先级</th><th>问题</th><th>影响</th><th>工作量</th></tr>
+  <tr><td style="color:#e24b4a">P0</td><td>DataTable.ReadXml/WriteXml</td><td>运行时必崩</td><td>中 — 重写数据持久化层</td></tr>
+  <tr><td style="color:#ef9f27">P1</td><td>AntdUI AOT 兼容性验证</td><td>控件可能无法正常工作</td><td>大 — 需逐控件测试</td></tr>
+  <tr><td style="color:#ef9f27">P1</td><td>DataTable 数据绑定</td><td>表格可能不显示数据</td><td>小 — 改为手动填充或强类型绑定</td></tr>
+  <tr><td style="color:#ef9f27">P2</td><td>Process.Start URL</td><td>链接无法打开</td><td>小 — 加 UseShellExecute=true</td></tr>
+  <tr><td style="color:#378add">P3</td><td>Nullable 警告</td><td>潜在 NullReferenceException</td><td>小 — 加空检查</td></tr>
+  <tr><td style="color:#639922">P4</td><td>残留 using 清理</td><td>代码整洁</td><td>极小 — 删一行</td></tr>
+  <tr><td style="color:#639922">P4</td><td>IL3000 Assembly.Location</td><td>框架内部问题</td><td>无需处理</td></tr>
+</table>
+
+</body>
+</html>
