@@ -145,6 +145,7 @@ namespace MultiDesktop
             Controls.Add(label1);
             Name = "frmAbout";
             Text = "关于";
+            Load += frmAbout_Load;
             ResumeLayout(false);
             PerformLayout();
         }

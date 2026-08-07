@@ -1,4 +1,5 @@
-﻿using System;
+﻿using I18N.DotNet;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,6 +7,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using static I18N.DotNet.Localizer;
 
 namespace MultiDesktop
 {
@@ -54,6 +56,18 @@ namespace MultiDesktop
         private void btnOK_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void frmAbout_Load(object sender, EventArgs e)
+        {
+            // I18N 国际化
+            this.Text = GlobalLocalizer.Localize(this.Text);
+            label1.Text = GlobalLocalizer.Localize(label1.Text);
+            label3.Text = GlobalLocalizer.Localize(label3.Text);
+            label4.Text = GlobalLocalizer.Localize(label4.Text);
+            label5.Text = GlobalLocalizer.Localize(label5.Text);
+            lnkAntdUILicense.Text = GlobalLocalizer.Localize(lnkAntdUILicense.Text);
+            btnOK.Text = GlobalLocalizer.Localize(btnOK.Text);
         }
     }
 }

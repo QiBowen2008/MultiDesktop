@@ -34,6 +34,7 @@ namespace MultiDesktop
             btnSaveSettings = new AntdUI.Button();
             btnClose = new AntdUI.Button();
             label3 = new Label();
+            button1 = new AntdUI.Button();
             SuspendLayout();
             // 
             // drpColorMode
@@ -80,7 +81,7 @@ namespace MultiDesktop
             // 
             btnSaveSettings.DefaultBack = Color.Green;
             btnSaveSettings.Font = new Font("Microsoft YaHei UI", 15F);
-            btnSaveSettings.Location = new Point(112, 233);
+            btnSaveSettings.Location = new Point(116, 281);
             btnSaveSettings.Name = "btnSaveSettings";
             btnSaveSettings.Size = new Size(166, 79);
             btnSaveSettings.TabIndex = 6;
@@ -91,7 +92,7 @@ namespace MultiDesktop
             // 
             btnClose.DefaultBack = Color.Red;
             btnClose.Font = new Font("Microsoft YaHei UI", 15F);
-            btnClose.Location = new Point(307, 233);
+            btnClose.Location = new Point(311, 281);
             btnClose.Name = "btnClose";
             btnClose.Size = new Size(166, 79);
             btnClose.TabIndex = 7;
@@ -103,17 +104,29 @@ namespace MultiDesktop
             label3.AutoSize = true;
             label3.Font = new Font("Microsoft YaHei UI", 15F);
             label3.ImeMode = ImeMode.NoControl;
-            label3.Location = new Point(124, 337);
+            label3.Location = new Point(139, 391);
             label3.Name = "label3";
             label3.Size = new Size(287, 39);
             label3.TabIndex = 8;
             label3.Text = "设置重启软件时生效";
             // 
+            // button1
+            // 
+            button1.DefaultBack = Color.LightBlue;
+            button1.Font = new Font("Microsoft YaHei UI", 15F);
+            button1.Location = new Point(114, 198);
+            button1.Name = "button1";
+            button1.Size = new Size(363, 66);
+            button1.TabIndex = 9;
+            button1.Text = "安装Openclaw Skills";
+            button1.Click += btnInstallSkills_Click;
+            // 
             // frmSet
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(593, 402);
+            ClientSize = new Size(584, 459);
+            Controls.Add(button1);
             Controls.Add(label3);
             Controls.Add(btnClose);
             Controls.Add(btnSaveSettings);
@@ -137,5 +150,6 @@ namespace MultiDesktop
         private AntdUI.Button btnSaveSettings;
         private AntdUI.Button btnClose;
         private Label label3;
+        private AntdUI.Button button1;
     }
 }

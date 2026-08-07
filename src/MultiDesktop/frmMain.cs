@@ -1,5 +1,7 @@
+using I18N.DotNet;
 using System.Data;
 using System.Diagnostics;
+using static I18N.DotNet.Localizer;
 
 namespace MultiDesktop
 {
@@ -8,9 +10,9 @@ namespace MultiDesktop
         public frmMain()
         {
             InitializeComponent();
-            if (File.Exists("DesktopList.xml"))
+            if (File.Exists(AppPaths.DesktopList))
             {
-                DesktopManager.DesktopList.ReadXml("DesktopList.xml");
+                DesktopManager.DesktopList.ReadXml(AppPaths.DesktopList);
                 DesktopManager.EnsureDesktopListColumns(DesktopManager.DesktopList);
             }
             else
@@ -30,10 +32,26 @@ namespace MultiDesktop
             frmAddDesktop frmAddDesktop = new();
             frmAddDesktop.ShowDialog();
             tblDesktopList.Refresh();
+            DesktopManager.IndexToChange = DesktopManager.DesktopList.Rows.Count;
         }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            // I18N 国际化
+            this.Text = GlobalLocalizer.Localize(this.Text);
+            label1.Text = GlobalLocalizer.Localize(label1.Text);
+            btnAddDesktop.Text = GlobalLocalizer.Localize(btnAddDesktop.Text);
+            btnDeleteDesktop.Text = GlobalLocalizer.Localize(btnDeleteDesktop.Text);
+            btnChangeDesktop.Text = GlobalLocalizer.Localize(btnChangeDesktop.Text);
+            btnEditDesktop.Text = GlobalLocalizer.Localize(btnEditDesktop.Text);
+            btnSet.Text = GlobalLocalizer.Localize(btnSet.Text);
+            btnAbout.Text = GlobalLocalizer.Localize(btnAbout.Text);
+            notifyIcon1.Text = GlobalLocalizer.Localize(notifyIcon1.Text);
+            itmDesktopList.Text = GlobalLocalizer.Localize(itmDesktopList.Text);
+            itmSettingsMenu.Text = GlobalLocalizer.Localize(itmSettingsMenu.Text);
+            itmAboutMenu.Text = GlobalLocalizer.Localize(itmAboutMenu.Text);
+            itmExit.Text = GlobalLocalizer.Localize(itmExit.Text);
+
             tblDesktopList.DataSource = DesktopManager.DesktopList;
             tblDesktopList.Refresh();
             notifyIcon1.Visible = true;
@@ -58,7 +76,7 @@ namespace MultiDesktop
                 }
                 DesktopManager.DesktopList.AcceptChanges();
                 tblDesktopList.Refresh();
-                DesktopManager.DesktopList.WriteXml("DesktopList.xml", XmlWriteMode.WriteSchema);
+                DesktopManager.DesktopList.WriteXml(AppPaths.DesktopList, XmlWriteMode.WriteSchema);
             }
 
 
@@ -70,6 +88,7 @@ namespace MultiDesktop
             DesktopManager.t_DesktopPath = DesktopManager.DesktopList.Rows[tblDesktopList.SelectedIndex - 1][1].ToString();
             DesktopManager.IsEdit = true;
             DesktopManager.IndexToChange = tblDesktopList.SelectedIndex - 1;
+            EncryptManager.IsEncrypted = Convert.ToBoolean( DesktopManager.DesktopList.Rows[tblDesktopList.SelectedIndex - 1][5]);
             frmAddDesktop frmAddDesktop = new();
             frmAddDesktop.ShowDialog();
             tblDesktopList.Refresh();
@@ -143,7 +162,7 @@ namespace MultiDesktop
             }
             else
             {
-                Process.GetCurrentProcess().Kill();
+                Environment.Exit(0);
             }
 
         }
@@ -155,7 +174,7 @@ namespace MultiDesktop
 
         private void itmExit_Click(object sender, EventArgs e)
         {
-            Process.GetCurrentProcess().Kill();
+            Environment.Exit(0);
         }
 
         private void itmDesktopList_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)

@@ -2,6 +2,7 @@ using Microsoft.Win32;
 using System.Data;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using PostQuantum.FileEncryption;
 
 namespace MultiDesktop
 {
@@ -16,6 +17,27 @@ namespace MultiDesktop
         /// </summary>
         [STAThread]
         static void Main(string[] args)
+        {
+            // NativeAOT 下任何未处理异常都会以 0xC0000409（STATUS_STACK_BUFFER_OVERRUN）fail-fast，
+            // 这里兜底：写 error.log 并弹窗提示，而不是直接崩溃。
+            try
+            {
+                Run(args);
+            }
+            catch (Exception ex)
+            {
+                try
+                {
+                    File.WriteAllText(Path.Combine(AppPaths.ConfigDir, "error.log"),
+                        $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}]\r\n{ex}\r\n");
+                }
+                catch { }
+                MessageBox.Show($"MultiDesktop 启动失败：\n{ex.Message}\n\n详细信息已写入配置目录下的 error.log",
+                    "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private static void Run(string[] args)
         {
             // ========== CLI 模式 ==========
             for (int i = 0; i < args.Length; i++)
@@ -41,11 +63,66 @@ namespace MultiDesktop
                         Console.WriteLine("示例: MultiDesktop --AddDesktop \"工作\" \"D:\\WorkDesktop\"");
                         return;
                     }
+
+                    // 可选参数：--SetBack <壁纸路径> 启用自定义壁纸，--SetStyle <显示方式> 指定显示方式
+                    bool enableWallpaper = false;
+                    string wallpaperPath = "";
+                    string wallpaperStyle = "填充";
+                    bool Encrypt = false;
+                    int j = i + 3;
+                    while (j < args.Length)
+                    {
+                        if (args[j] == "--SetBack")
+                        {
+                            if (j + 1 >= args.Length)
+                            {
+                                Console.WriteLine("错误: --SetBack 缺少参数。需要: <壁纸路径>");
+                                Console.WriteLine("示例: MultiDesktop --AddDesktop \"工作\" \"D:\\WorkDesktop\" --SetBack \"D:\\wallpaper.jpg\"");
+                                return;
+                            }
+                            enableWallpaper = true;
+                            wallpaperPath = args[j + 1];
+                            j += 2;
+                        }
+                        else if (args[j] == "--SetStyle")
+                        {
+                            if (j + 1 >= args.Length)
+                            {
+                                Console.WriteLine("错误: --SetStyle 缺少参数。需要: <显示方式>");
+                                Console.WriteLine("提示: 显示方式可选 填充/适应/拉伸/平铺/居中/跨屏");
+                                return;
+                            }
+                            wallpaperStyle = args[j + 1];
+                            j += 2;
+                        }
+                        else if (args[j] == "--SetPassword")
+                        {
+                            if(j + 1 >= args.Length)
+                            {
+                                Console.WriteLine("错误: --SetPassword 缺少参数。需要: <密码>");
+                                return;
+                            }
+                            Encrypt = true;
+                        }
+                        else
+                        {
+                            j++;
+                        }
+                    }
+
+                    if (enableWallpaper && !File.Exists(wallpaperPath))
+                    {
+                        Console.WriteLine($"错误: 壁纸文件不存在: {wallpaperPath}");
+                        return;
+                    }
+
                     InitDesktopListForCli();
                     try
                     {
-                        DesktopManager.AddDesktop(args[i + 1], args[i + 2], false, "", "填充");
+                        DesktopManager.AddDesktop(args[i + 1], args[i + 2], enableWallpaper, wallpaperPath??"", wallpaperStyle,Encrypt);
                         Console.WriteLine($"成功添加桌面: {args[i + 1]} -> {args[i + 2]}");
+                        if (enableWallpaper)
+                            Console.WriteLine($"已设置壁纸: {wallpaperPath} (显示方式: {wallpaperStyle})");
                     }
                     catch (Exception ex)
                     {
@@ -67,7 +144,7 @@ namespace MultiDesktop
                     if (row != null)
                     {
                         row.Delete();
-                        DesktopManager.DesktopList.WriteXml("DesktopList.xml", System.Data.XmlWriteMode.WriteSchema);
+                        DesktopManager.DesktopList.WriteXml(AppPaths.DesktopList, System.Data.XmlWriteMode.WriteSchema);
                         Console.WriteLine($"已删除桌面: {args[i + 1]}");
                     }
                     else
@@ -80,9 +157,9 @@ namespace MultiDesktop
                 if (args[i] == "--ListDesktop")
                 {
                     AttachConsole(-1);
-                    if (File.Exists("DesktopList.xml"))
+                    if (File.Exists(AppPaths.DesktopList))
                     {
-                        Console.Write(File.ReadAllText("DesktopList.xml"));
+                        Console.Write(File.ReadAllText(AppPaths.DesktopList));
                     }
                     else
                     {
@@ -103,7 +180,7 @@ namespace MultiDesktop
                 return;
             }
             // ========== 初始化（只执行一次） ==========
-            if (!File.Exists("AppSettings.xml"))
+            if (!File.Exists(AppPaths.AppSettings))
             {
                 var dt = AppSettingsManager.AppSettings;
                 dt.Columns.Add("Key", typeof(string));
@@ -111,11 +188,11 @@ namespace MultiDesktop
                 dt.TableName = "AppSettings";
                 dt.Rows.Add("Color", 0);
                 dt.Rows.Add("ExitMode", 0);
-                dt.WriteXml("AppSettings.xml", XmlWriteMode.WriteSchema);
+                dt.WriteXml(AppPaths.AppSettings, XmlWriteMode.WriteSchema);
             }
             else
             {
-                AppSettingsManager.AppSettings.ReadXml("AppSettings.xml");
+                AppSettingsManager.AppSettings.ReadXml(AppPaths.AppSettings);
             }
 
             AppSettingsManager.AppSettings.PrimaryKey = new DataColumn[]
@@ -148,12 +225,15 @@ namespace MultiDesktop
 
   --version                显示版本号
 
-  --AddDesktop <名称> <路径>
+  --AddDesktop <名称> <路径> [--SetBack <壁纸路径>] [--SetStyle <显示方式>]
                            添加一个新的桌面配置。
                            名称和路径均需提供，路径必须存在。
+                           --SetBack 可选，为桌面设置自定义壁纸（切换到此桌面时自动应用）。
+                           --SetStyle 可选，指定壁纸显示方式（默认""填充""），
+                           可用值: 填充/适应/拉伸/平铺/居中/跨屏。
                            示例:
                              MultiDesktop --AddDesktop ""工作"" ""D:\WorkDesktop""
-                             MultiDesktop --AddDesktop ""娱乐"" ""E:\GameDesktop""
+                             MultiDesktop --AddDesktop ""娱乐"" ""E:\GameDesktop"" --SetBack ""D:\pics\game.jpg"" --SetStyle 拉伸
 
   --DeleteDesktop <名称>
                            删除指定名称的桌面配置。
@@ -173,9 +253,9 @@ namespace MultiDesktop
 
         private static void InitDesktopListForCli()
         {
-            if (File.Exists("DesktopList.xml"))
+            if (File.Exists(AppPaths.DesktopList))
             {
-                DesktopManager.DesktopList.ReadXml("DesktopList.xml");
+                DesktopManager.DesktopList.ReadXml(AppPaths.DesktopList);
                 DesktopManager.EnsureDesktopListColumns(DesktopManager.DesktopList);
             }
             else
@@ -186,6 +266,17 @@ namespace MultiDesktop
                 DesktopManager.DesktopList.Columns.Add("是否开启自定义壁纸", typeof(bool));
                 DesktopManager.DesktopList.Columns.Add("自定义壁纸地址", typeof(string));
                 DesktopManager.DesktopList.Columns.Add("壁纸显示方式", typeof(string));
+                DesktopManager.DesktopList.Columns.Add("是否加密", typeof(bool));
+            }
+            if (File.Exists(AppPaths.PasswordList))
+            {
+                EncryptManager.PasswordList.ReadXml(AppPaths.PasswordList);
+            }
+            else
+            {
+                EncryptManager.PasswordList.TableName = "PasswordList";
+                EncryptManager.PasswordList.Columns.Add("id",typeof(int));
+                EncryptManager.PasswordList.Columns.Add("hash",typeof(string));
             }
             DesktopManager.DesktopList.PrimaryKey = new DataColumn[]
             {
@@ -193,6 +284,38 @@ namespace MultiDesktop
             };
         }
     }
+    /// <summary>
+    /// 配置文件路径解析。winget 等场景下工作目录(CWD)可能不可写，
+    /// 因此配置文件统一放在 exe 所在目录；该目录不可写时回退到 %AppData%\MultiDesktop。
+    /// </summary>
+    public static class AppPaths
+    {
+        public static readonly string ConfigDir = ResolveConfigDir();
+        public static readonly string AppSettings = Path.Combine(ConfigDir, "AppSettings.xml");
+        public static readonly string DesktopList = Path.Combine(ConfigDir, "DesktopList.xml");
+        public static readonly string PasswordList = Path.Combine(ConfigDir, "PasswordList.xml");
+
+        private static string ResolveConfigDir()
+        {
+            try
+            {
+                // 探测 exe 目录是否可写（winget portable 安装在用户目录下，可写）
+                var probe = Path.Combine(AppContext.BaseDirectory, ".write_probe");
+                File.WriteAllText(probe, "");
+                File.Delete(probe);
+                return AppContext.BaseDirectory;
+            }
+            catch
+            {
+                var dir = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    "MultiDesktop");
+                Directory.CreateDirectory(dir);
+                return dir;
+            }
+        }
+    }
+
     public static class DesktopManager
     {
         // ========== Win32 Shell API ==========
@@ -367,7 +490,7 @@ namespace MultiDesktop
             System.Threading.Thread.Sleep(1000);
             Process.Start("explorer.exe");
         }
-        public static bool AddDesktop(string DesktopName, string DesktopPath, bool enableWallpaper, string wallpaperPath, string wallpaperStyle)
+        public static bool AddDesktop(string DesktopName, string DesktopPath, bool enableWallpaper, string wallpaperPath, string wallpaperStyle,bool IsEncrypt)
         {
             if (!string.IsNullOrWhiteSpace(DesktopName) && !string.IsNullOrWhiteSpace(DesktopPath))
             {
@@ -382,7 +505,7 @@ namespace MultiDesktop
 
                     if (DesktopManager.IsEdit == false)
                     {
-                        DesktopManager.DesktopList.Rows.Add(DesktopName, DesktopPath, enableWallpaper, wallpaperPath ?? "", wallpaperStyle ?? "填充");
+                        DesktopManager.DesktopList.Rows.Add(DesktopName, DesktopPath, enableWallpaper, wallpaperPath ?? "", wallpaperStyle ?? "填充",IsEncrypt);
                     }
                     else
                     {
@@ -392,7 +515,7 @@ namespace MultiDesktop
                         DesktopManager.DesktopList.Rows[DesktopManager.IndexToChange][3] = wallpaperPath ?? "";
                         DesktopManager.DesktopList.Rows[DesktopManager.IndexToChange][4] = wallpaperStyle ?? "填充";
                     }
-                    DesktopManager.DesktopList.WriteXml("DesktopList.xml", System.Data.XmlWriteMode.WriteSchema);
+                    DesktopManager.DesktopList.WriteXml(AppPaths.DesktopList, System.Data.XmlWriteMode.WriteSchema);
                     return true;
                 }
                 else
@@ -455,6 +578,36 @@ namespace MultiDesktop
                 "退出程序" => 2,
                 _ => 0
             };
+        }
+    }
+    public static class EncryptManager
+    {
+        public static bool IsEncrypted = false;
+        public static DataTable PasswordList = new();
+        public static string DesktopFolder;
+        public static int DesktopID;
+        public  static void GetZipFile(string folder,int id,string password)
+        {
+            string zipfile = AppPaths.ConfigDir + "/Zips/" + id.ToString() + ".zip";
+            string zipDirectory = Path.GetDirectoryName(zipfile);
+
+            // 2. 创建该目录（如果已存在则不会做任何事）
+            if (!string.IsNullOrEmpty(zipDirectory))
+            {
+                Directory.CreateDirectory(zipDirectory);
+            }
+            System.IO.Compression.ZipFile.CreateFromDirectory(folder, zipfile, System.IO.Compression.CompressionLevel.NoCompression, false);
+            Directory.Delete(folder, true);
+            new PqFileEncryptor().EncryptFileAsync(zipfile, zipfile + ".encrypted", password);
+        }
+        public static void UnZipFile(string folder, int id, string password)
+        {
+            string zipfile = AppPaths.ConfigDir + "/Zips/" + id.ToString() + ".zip";
+            string encryptedfile = zipfile + ".encrypted";
+            new PqFileDecryptor().DecryptFileAsync(encryptedfile, zipfile, password);
+            System.IO.Compression.ZipFile.ExtractToDirectory(zipfile, folder, true);
+            File.Delete(zipfile);
+            File.Delete(encryptedfile);
         }
     }
 }

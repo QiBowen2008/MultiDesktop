@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<I18N>
+	<Entry>
+		<Key>关于</Key>
+		<Value lang="en">About</Value>
+	</Entry>
+	<Entry>
+		<Key>桌面管理器</Key>
+		<Value lang="en">Desktop Manager</Value>
+	</Entry>
+	<Entry>
+		<Key>添加桌面</Key>
+		<Value lang="en">Add Desktop</Value>
+	</Entry>
+	<Entry>
+		<Key>删除</Key>
+		<Value lang="en">Delete</Value>
+	</Entry>
+	<Entry>
+		<Key>切换到选中桌面</Key>
+		<Value lang="en">Switch to Selected Desktop</Value>
+	</Entry>
+	<Entry>
+		<Key>编辑选中桌面</Key>
+		<Value lang="en">Edit Selected Desktop</Value>
+	</Entry>
+	<Entry>
+		<Key>多桌面切换</Key>
+		<Value lang="en">Multi-Desktop Switcher</Value>
+	</Entry>
+	<Entry>
+		<Key>切换到</Key>
+		<Value lang="en">Switch to</Value>
+	</Entry>
+	<Entry>
+		<Key>设置</Key>
+		<Value lang="en">Settings</Value>
+	</Entry>
+	<Entry>
+		<Key>退出</Key>
+		<Value lang="en">Exit</Value>
+	</Entry>
+	<Entry>
+		<Key>关于软件</Key>
+		<Value lang="en">About Software</Value>
+	</Entry>
+	<Entry>
+		<Key>颜色模式</Key>
+		<Value lang="en">Color Mode</Value>
+	</Entry>
+	<Entry>
+		<Key>退出时</Key>
+		<Value lang="en">On Exit</Value>
+	</Entry>
+	<Entry>
+		<Key>确定</Key>
+		<Value lang="en">Confirm</Value>
+	</Entry>
+	<Entry>
+		<Key>取消</Key>
+		<Value lang="en">Cancel</Value>
+	</Entry>
+	<Entry>
+		<Key>设置重启软件时生效</Key>
+		<Value lang="en">Settings take effect after restart</Value>
+	</Entry>
+	<Entry>
+		<Key>项目主页</Key>
+		<Value lang="en">Project Homepage</Value>
+	</Entry>
+	<Entry>
+		<Key>感谢以下开源项目</Key>
+		<Value lang="en">Thanks to the Following Open Source Projects</Value>
+	</Entry>
+	<Entry>
+		<Key>许可证</Key>
+		<Value lang="en">License</Value>
+	</Entry>
+	<Entry>
+		<Key>许可证：MIT</Key>
+		<Value lang="en">License: MIT</Value>
+	</Entry>
+	<Entry>
+		<Key>确定退出吗？</Key>
+		<Value lang="en">Are you sure you want to exit?</Value>
+	</Entry>
+	<Entry>
+		<Key>最小化</Key>
+		<Value lang="en">Minimize</Value>
+	</Entry>
+	<Entry>
+		<Key>不再询问</Key>
+		<Value lang="en">Don't ask again</Value>
+	</Entry>
+	<Entry>
+		<Key>确认退出吗</Key>
+		<Value lang="en">Confirm Exit</Value>
+	</Entry>
+	<Entry>
+		<Key>桌面名称</Key>
+		<Value lang="en">Desktop Name</Value>
+	</Entry>
+	<Entry>
+		<Key>桌面路径</Key>
+		<Value lang="en">Desktop Path</Value>
+	</Entry>
+	<Entry>
+		<Key>启用自定义壁纸</Key>
+		<Value lang="en">Enable Custom Wallpaper</Value>
+	</Entry>
+	<Entry>
+		<Key>壁纸路径</Key>
+		<Value lang="en">Wallpaper Path</Value>
+	</Entry>
+	<Entry>
+		<Key>显示方式</Key>
+		<Value lang="en">Display Mode</Value>
+	</Entry>
+</I18N>

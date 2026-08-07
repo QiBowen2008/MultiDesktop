@@ -121,7 +121,7 @@ namespace MultiDesktop
             // notifyIcon1
             // 
             notifyIcon1.ContextMenuStrip = contextMenuStrip1;
-            notifyIcon1.Icon = new Icon("Desktop.ico");
+            notifyIcon1.Icon = new Icon(System.IO.Path.Combine(System.AppContext.BaseDirectory, "Desktop.ico"));
             notifyIcon1.Text = "多桌面切换";
             notifyIcon1.Visible = true;
             notifyIcon1.MouseDoubleClick += notifyIcon1_MouseDoubleClick;

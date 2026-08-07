@@ -34,7 +34,7 @@ metadata:
 |---|---|---|---|
 | `--help` / `-h` | 标志 | 显示帮助信息并退出 | `MultiDesktop --help` |
 | `--version` | 标志 | 显示版本号并退出 | `MultiDesktop --version` |
-| `--AddDesktop <名称> <路径>` | 带 2 个位置参数 | 通过 CLI 添加桌面配置。路径必须已存在。固定值：`enableWallpaper=false`, `wallpaperPath=""`, `wallpaperStyle="填充"` | `MultiDesktop --AddDesktop "工作" "D:\WorkDesktop"` |
+| `--AddDesktop <名称> <路径> [--SetBack <壁纸路径>] [--SetStyle <显示方式>]` | 带 2 个位置参数 + 可选参数 | 通过 CLI 添加桌面配置。路径必须已存在。`--SetBack` 可选，启用自定义壁纸；`--SetStyle` 可选，指定显示方式（填充/适应/拉伸/平铺/居中/跨屏，默认"填充"） | `MultiDesktop --AddDesktop "工作" "D:\WorkDesktop" --SetBack "D:\pics\wall.jpg" --SetStyle 拉伸` |
 | `--DeleteDesktop <名称>` | 带 1 个位置参数 | 删除指定名称的桌面配置 | `MultiDesktop --DeleteDesktop "工作"` |
 | `--ListDesktop` | 标志 | 列出所有已配置桌面（打印 DesktopList.xml 内容） | `MultiDesktop --ListDesktop` |
 
@@ -140,7 +140,7 @@ metadata:
 
 1. 准备好一个空文件夹作为桌面路径
 2. GUI：点击"添加桌面"，填写名称和路径，勾选壁纸选项后选择壁纸和显示方式，点击保存
-3. CLI：`MultiDesktop --AddDesktop "新桌面" "D:\NewDesktop"`
+3. CLI：`MultiDesktop --AddDesktop "新桌面" "D:\NewDesktop"`（需要自定义壁纸时追加 `--SetBack "D:\pics\wall.jpg" --SetStyle 拉伸`）
 
 ### 在两个桌面间切换
 
