@@ -41,6 +41,9 @@ DesktopList.xml
 *.log
 txt_log*.txt
 
+## Local tooling workspace
+.freebuff/
+
 ## OS files
 Thumbs.db
 ehthumbs.db

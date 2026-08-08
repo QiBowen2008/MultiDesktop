@@ -7,6 +7,7 @@ namespace MultiDesktop
         public frmAddDesktop()
         {
             InitializeComponent();
+            
         }
 
         private void btnAddDesktop_Click(object sender, EventArgs e)
@@ -17,10 +18,7 @@ namespace MultiDesktop
                                            chkEnableWallpaper.Checked, txtWallpaperPath.Text,
                                            wallpaperStyle, Encrypt))
             {
-                if (Encrypt)
-                {
-
-                }
+                Close();
             }
         }
 
@@ -68,6 +66,10 @@ namespace MultiDesktop
             txtDesktopName.Text = DesktopManager.t_DesktopName;
             txtDesktopPath.Text = DesktopManager.t_DesktopPath;
 
+            // 新增桌面时重置加密状态，避免上次编辑残留
+            if (!DesktopManager.IsEdit)
+                EncryptManager.Reset();
+
             // 默认选中"填充"
             cboWallpaperStyle.SelectedIndex = 0;
 
@@ -97,21 +99,27 @@ namespace MultiDesktop
         private void frmAddDesktop_FormClosing(object sender, FormClosingEventArgs e)
         {
             DesktopManager.ReSetDesktopManager();
+            EncryptManager.Reset();
         }
 
         private void btnSetPassword_Click(object sender, EventArgs e)
         {
-
+            if (string.IsNullOrWhiteSpace(txtDesktopName.Text))
+            {
+                MessageBox.Show("请先填写桌面名称");
+                return;
+            }
             if (string.IsNullOrWhiteSpace(txtDesktopPath.Text))
             {
                 MessageBox.Show("请先设置桌面路径");
+                return;
             }
-            else
-            {
-                EncryptManager.DesktopFolder = txtDesktopPath.Text;
-                frmPassword frmPassword = new frmPassword();
-                frmPassword.ShowDialog();
-            }
+            // 通过 Program.cs 公共 static class 传递参数（不使用委托）
+            EncryptManager.DesktopName = txtDesktopName.Text;
+            EncryptManager.DesktopFolder = txtDesktopPath.Text;
+            EncryptManager.DesktopID = EncryptManager.GetZipId(EncryptManager.DesktopName);
+            frmPassword frmPassword = new frmPassword();
+            frmPassword.ShowDialog();
         }
     }
 }

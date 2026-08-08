@@ -1,13 +1,5 @@
 ﻿using I18N.DotNet;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using static I18N.DotNet.Localizer;
 
 namespace MultiDesktop
 {

@@ -55,7 +55,7 @@ namespace MultiDesktop
             label2.Name = "label2";
             label2.Size = new Size(102, 24);
             label2.TabIndex = 1;
-            label2.Text = "版本1.1.2.0";
+            label2.Text = "版本1.3.4.0";
             // 
             // label3
             // 

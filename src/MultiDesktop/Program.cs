@@ -45,7 +45,7 @@ namespace MultiDesktop
                 if (args[i] == "--version")
                 {
                     AttachConsole(-1);
-                    Console.WriteLine("MultiDesktop v1.1.2.0");
+                    Console.WriteLine("MultiDesktop v1.3.4.0");
                     return;
                 }
                 if (args[i] == "--help" || args[i] == "-h")
@@ -119,8 +119,11 @@ namespace MultiDesktop
                     InitDesktopListForCli();
                     try
                     {
-                        DesktopManager.AddDesktop(args[i + 1], args[i + 2], enableWallpaper, wallpaperPath??"", wallpaperStyle,Encrypt);
+                        // CLI 无法交互输入密码，加密请使用 GUI 中的“桌面加密设置”
+                        DesktopManager.AddDesktop(args[i + 1], args[i + 2], enableWallpaper, wallpaperPath ?? "", wallpaperStyle, false);
                         Console.WriteLine($"成功添加桌面: {args[i + 1]} -> {args[i + 2]}");
+                        if (Encrypt)
+                            Console.WriteLine("提示: CLI 暂不支持设置密码，如需加密请在图形界面中为桌面设置密码。");
                         if (enableWallpaper)
                             Console.WriteLine($"已设置壁纸: {wallpaperPath} (显示方式: {wallpaperStyle})");
                     }
@@ -210,7 +213,7 @@ namespace MultiDesktop
 
         private static void ShowHelp()
         {
-            Console.WriteLine(@"MultiDesktop — Windows 多桌面管理工具  v1.1.2.0
+            Console.WriteLine(@"MultiDesktop — Windows 多桌面管理工具  v1.3.4.0
 
 通过修改 Windows 注册表中的桌面路径，实现在多个虚拟桌面文件夹之间
 一键切换。程序可最小化到系统托盘，右键即可快速切换已配置的桌面。
@@ -268,16 +271,6 @@ namespace MultiDesktop
                 DesktopManager.DesktopList.Columns.Add("壁纸显示方式", typeof(string));
                 DesktopManager.DesktopList.Columns.Add("是否加密", typeof(bool));
             }
-            if (File.Exists(AppPaths.PasswordList))
-            {
-                EncryptManager.PasswordList.ReadXml(AppPaths.PasswordList);
-            }
-            else
-            {
-                EncryptManager.PasswordList.TableName = "PasswordList";
-                EncryptManager.PasswordList.Columns.Add("id",typeof(int));
-                EncryptManager.PasswordList.Columns.Add("hash",typeof(string));
-            }
             DesktopManager.DesktopList.PrimaryKey = new DataColumn[]
             {
                 DesktopManager.DesktopList.Columns["桌面名称"]!
@@ -293,7 +286,6 @@ namespace MultiDesktop
         public static readonly string ConfigDir = ResolveConfigDir();
         public static readonly string AppSettings = Path.Combine(ConfigDir, "AppSettings.xml");
         public static readonly string DesktopList = Path.Combine(ConfigDir, "DesktopList.xml");
-        public static readonly string PasswordList = Path.Combine(ConfigDir, "PasswordList.xml");
 
         private static string ResolveConfigDir()
         {
@@ -368,6 +360,26 @@ namespace MultiDesktop
         public static bool IsEdit = false;
         public static int IndexToChange;
 
+        // ========== 当前激活桌面（用于离开加密桌面时自动重新加密） ==========
+        public static string? CurrentDesktopName;
+        public static string? CurrentDesktopPath;
+        public static bool CurrentDesktopEncrypted;
+
+        public static void SetCurrentDesktop(string? name, string? path, bool encrypted)
+        {
+            CurrentDesktopName = name;
+            CurrentDesktopPath = path;
+            CurrentDesktopEncrypted = encrypted;
+        }
+
+        /// <summary>安全读取行中的布尔值（兼容旧版 XML 缺少列/值为空的情况）。</summary>
+        public static bool GetBool(DataRow row, int index)
+            => row.ItemArray.Length > index && row[index] is not DBNull && Convert.ToBoolean(row[index]);
+
+        /// <summary>安全读取行中的字符串值。</summary>
+        public static string? GetString(DataRow row, int index)
+            => row.ItemArray.Length > index && row[index] is not DBNull ? row[index]?.ToString() : null;
+
         public static void ReSetDesktopManager()
         {
             t_DesktopName = "";
@@ -386,6 +398,14 @@ namespace MultiDesktop
                 dt.Columns.Add("自定义壁纸地址", typeof(string));
             if (!dt.Columns.Contains("壁纸显示方式"))
                 dt.Columns.Add("壁纸显示方式", typeof(string));
+            if (!dt.Columns.Contains("是否加密"))
+            {
+                dt.Columns.Add("是否加密", typeof(bool));
+                // 旧版 XML 没有该列，读取后已有行会是 DBNull，统一补 false
+                foreach (DataRow r in dt.Rows)
+                    if (r["是否加密"] is DBNull)
+                        r["是否加密"] = false;
+            }
         }
 
         /// <summary>
@@ -438,7 +458,15 @@ namespace MultiDesktop
         {
             ChangeDesktopPath(newPath, null, null);
         }
-
+        /// <summary>
+        /// 切换到一个加密桌面：先用密码解密还原文件夹，再切换。
+        /// 密码错误时 UnZipFile 会抛出异常，不会执行切换。
+        /// </summary>
+        public static async Task ChangeDesktopPathWithPassword(string newPath, string? wallpaperPath, string? wallpaperStyle, int id, string password)
+        {
+            await EncryptManager.UnZipFile(newPath, id, password);
+            ChangeDesktopPath(newPath, wallpaperPath, wallpaperStyle);
+        }
         /// <summary>
         /// 切换桌面文件夹路径，并可选设置壁纸及显示方式。
         /// wallpaperPath 为 null 时仅切换目录，不修改壁纸。
@@ -494,7 +522,7 @@ namespace MultiDesktop
         {
             if (!string.IsNullOrWhiteSpace(DesktopName) && !string.IsNullOrWhiteSpace(DesktopPath))
             {
-                if (Directory.Exists(DesktopPath))
+                if (Directory.Exists(DesktopPath)||EncryptManager.IsEncrypted == true)
                 {
                     // 壁纸存在性检查：开启自定义壁纸时文件必须存在
                     if (enableWallpaper && !File.Exists(wallpaperPath))
@@ -514,6 +542,7 @@ namespace MultiDesktop
                         DesktopManager.DesktopList.Rows[DesktopManager.IndexToChange][2] = enableWallpaper;
                         DesktopManager.DesktopList.Rows[DesktopManager.IndexToChange][3] = wallpaperPath ?? "";
                         DesktopManager.DesktopList.Rows[DesktopManager.IndexToChange][4] = wallpaperStyle ?? "填充";
+                        DesktopManager.DesktopList.Rows[DesktopManager.IndexToChange][5] = IsEncrypt;
                     }
                     DesktopManager.DesktopList.WriteXml(AppPaths.DesktopList, System.Data.XmlWriteMode.WriteSchema);
                     return true;
@@ -582,32 +611,233 @@ namespace MultiDesktop
     }
     public static class EncryptManager
     {
+        /// <summary>当前正在编辑的桌面是否已加密（由 frmPassword 设置，frmAddDesktop 读取）。</summary>
         public static bool IsEncrypted = false;
-        public static DataTable PasswordList = new();
-        public static string DesktopFolder;
-        public static int DesktopID;
-        public  static void GetZipFile(string folder,int id,string password)
-        {
-            string zipfile = AppPaths.ConfigDir + "/Zips/" + id.ToString() + ".zip";
-            string zipDirectory = Path.GetDirectoryName(zipfile);
 
-            // 2. 创建该目录（如果已存在则不会做任何事）
-            if (!string.IsNullOrEmpty(zipDirectory))
-            {
-                Directory.CreateDirectory(zipDirectory);
-            }
-            System.IO.Compression.ZipFile.CreateFromDirectory(folder, zipfile, System.IO.Compression.CompressionLevel.NoCompression, false);
-            Directory.Delete(folder, true);
-            new PqFileEncryptor().EncryptFileAsync(zipfile, zipfile + ".encrypted", password);
-        }
-        public static void UnZipFile(string folder, int id, string password)
+        // ===== 窗体间传值（Program.cs 公共 static class 方案，不使用委托） =====
+        public static string? DesktopFolder;   // 正在设置密码的桌面文件夹路径
+        public static string? DesktopName;     // 正在设置密码的桌面名称
+        public static int DesktopID;           // 该桌面对应的加密 id
+        public static string? Password;        // 密码窗体校验通过后回传的密码
+
+        /// <summary>本次会话内已通过验证的密码缓存（桌面名称 -> 密码），用于离开桌面时自动重新加密。</summary>
+        private static readonly Dictionary<string, string> SessionPasswords = new(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>加密压缩包存放目录。</summary>
+        public static string ZipsDir => Path.Combine(AppPaths.ConfigDir, "Zips");
+
+        /// <summary>
+        /// 由桌面名称生成稳定的正整数 id（用于命名加密压缩包与定位密码记录），
+        /// 不依赖行索引，删除/重排桌面不会导致 id 错位。
+        /// </summary>
+        public static int GetZipId(string desktopName)
         {
-            string zipfile = AppPaths.ConfigDir + "/Zips/" + id.ToString() + ".zip";
+            uint hash = 2166136261; // FNV-1a
+            foreach (char c in desktopName)
+            {
+                hash ^= c;
+                hash *= 16777619;
+            }
+            return (int)(hash % int.MaxValue);
+        }
+
+        /// <summary>该桌面是否已存在加密压缩包（即是否已设置过密码）。</summary>
+        public static bool HasEncryptedFile(int id)
+            => File.Exists(Path.Combine(ZipsDir, id + ".zip.encrypted"));
+
+        /// <summary>
+        /// 通过实际解密验证密码是否正确（解密到临时目录后立即清理，不落盘明文）：
+        /// 密码错误抛出 PqDecryptionException；加密包不存在时视为通过（异常状态，由后续流程重建）。
+        /// </summary>
+        public static async Task VerifyPasswordByDecryptAsync(int id, string password)
+        {
+            string zipfile = Path.Combine(ZipsDir, id + ".zip");
             string encryptedfile = zipfile + ".encrypted";
-            new PqFileDecryptor().DecryptFileAsync(encryptedfile, zipfile, password);
-            System.IO.Compression.ZipFile.ExtractToDirectory(zipfile, folder, true);
-            File.Delete(zipfile);
-            File.Delete(encryptedfile);
+            if (!File.Exists(encryptedfile))
+                return; // 无加密包：无法验证，交由后续流程处理
+            if (string.IsNullOrEmpty(password))
+                throw new ArgumentException("密码不能为空");
+
+            string tempDir = Path.Combine(ZipsDir, ".verify_" + id);
+            DeleteIfExists(zipfile);
+            try
+            {
+                Directory.CreateDirectory(tempDir);
+                await new PqFileDecryptor().DecryptFileAsync(encryptedfile, zipfile, password);
+                // 能解出内容即证明密码正确；再解压到临时目录验证压缩包完整性
+                System.IO.Compression.ZipFile.ExtractToDirectory(zipfile, tempDir, true);
+            }
+            finally
+            {
+                DeleteIfExists(zipfile);
+                if (Directory.Exists(tempDir))
+                {
+                    ClearReadOnlyAttributes(tempDir);
+                    Directory.Delete(tempDir, true);
+                }
+            }
+        }
+
+        // ===== 会话密码缓存 =====
+        public static string? GetSessionPassword(string? name)
+            => !string.IsNullOrEmpty(name) && SessionPasswords.TryGetValue(name, out var pw) ? pw : null;
+        public static void SetSessionPassword(string? name, string password)
+        {
+            if (!string.IsNullOrEmpty(name)) SessionPasswords[name] = password;
+        }
+
+        /// <summary>重置本次添加/编辑桌面时产生的加密状态。</summary>
+        public static void Reset()
+        {
+            IsEncrypted = false;
+            Password = null;
+            DesktopFolder = null;
+            DesktopName = null;
+            DesktopID = 0;
+        }
+
+        /// <summary>
+        /// 加密桌面文件夹：压缩 → 加密压缩包 → 删除原文件夹。
+        /// 文件夹只会在压缩与加密全部成功后才会被删除，任何一步失败都保留原文件夹，不会丢失数据。
+        /// </summary>
+        public static async Task GetZipFile(string folder, int id, string password)
+        {
+            if (!Directory.Exists(folder))
+                throw new DirectoryNotFoundException($"桌面文件夹不存在：{folder}");
+            if (string.IsNullOrEmpty(password))
+                throw new ArgumentException("密码不能为空");
+
+            // 预检被占用/无权限的文件，避免压缩中途因权限不足、文件占用而失败
+            var locked = GetLockedFiles(folder);
+            if (locked.Count > 0)
+                throw new IOException(
+                    "以下文件正被其他程序占用或无法访问，请先关闭相关程序后重试：\r\n" + string.Join("\r\n", locked));
+
+            Directory.CreateDirectory(ZipsDir);
+            string zipfile = Path.Combine(ZipsDir, id + ".zip");
+            string encryptedfile = zipfile + ".encrypted";
+            DeleteIfExists(zipfile);
+            DeleteIfExists(encryptedfile);
+
+            try
+            {
+                // 1. 压缩（明文临时文件）
+                System.IO.Compression.ZipFile.CreateFromDirectory(folder, zipfile, System.IO.Compression.CompressionLevel.Optimal, false);
+                // 2. 加密压缩包 —— 必须 await 等待异步任务真正完成，否则后续删除会因文件占用而失败
+                await new PqFileEncryptor().EncryptFileAsync(zipfile, encryptedfile, password);
+                if (!File.Exists(encryptedfile))
+                    throw new IOException("加密失败：未生成加密文件");
+                // 3. 删除明文临时压缩包
+                File.Delete(zipfile);
+                // 4. 删除原文件夹（先清除只读属性）
+                ClearReadOnlyAttributes(folder);
+                Directory.Delete(folder, true);
+            }
+            catch
+            {
+                // 任何失败都保留原文件夹，仅清理明文临时压缩包
+                DeleteIfExists(zipfile);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 解密加密压缩包并还原桌面文件夹。保留加密包，便于下次再次解锁；
+        /// 密码错误时解密库会抛出异常，且不会产生任何输出文件。
+        /// </summary>
+        public static async Task UnZipFile(string folder, int id, string password)
+        {
+            if (string.IsNullOrEmpty(password))
+                throw new ArgumentException("密码不能为空");
+
+            string zipfile = Path.Combine(ZipsDir, id + ".zip");
+            string encryptedfile = zipfile + ".encrypted";
+            if (!File.Exists(encryptedfile))
+                throw new FileNotFoundException("未找到加密文件，无法解锁", encryptedfile);
+
+            Directory.CreateDirectory(folder);
+            DeleteIfExists(zipfile);
+            try
+            {
+                await new PqFileDecryptor().DecryptFileAsync(encryptedfile, zipfile, password);
+                if (!File.Exists(zipfile))
+                    throw new IOException("解密失败：未生成压缩包");
+                System.IO.Compression.ZipFile.ExtractToDirectory(zipfile, folder, true);
+                File.Delete(zipfile);
+            }
+            catch
+            {
+                DeleteIfExists(zipfile);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 移除加密：无论文件夹是否存在，都先通过实际解密验证原密码（错误则抛 PqDecryptionException），
+        /// 然后删除加密包。文件夹不存在时顺带真实解密还原明文。
+        /// </summary>
+        public static async Task RemoveEncryption(string folder, int id, string password)
+        {
+            if (Directory.Exists(folder))
+            {
+                // 文件夹为明文：解密到临时目录验证密码，避免旧压缩包覆盖新文件
+                await VerifyPasswordByDecryptAsync(id, password);
+            }
+            else
+            {
+                // 文件夹不存在（仍加密）：真实解密还原，密码错误在此抛出
+                await UnZipFile(folder, id, password);
+            }
+            DeleteIfExists(Path.Combine(ZipsDir, id + ".zip.encrypted"));
+        }
+
+        // ===== 内部工具 =====
+
+        private static void DeleteIfExists(string path)
+        {
+            if (File.Exists(path))
+            {
+                File.SetAttributes(path, FileAttributes.Normal);
+                File.Delete(path);
+            }
+        }
+
+        private static void ClearReadOnlyAttributes(string folder)
+        {
+            foreach (var file in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
+                File.SetAttributes(file, FileAttributes.Normal);
+            foreach (var dir in Directory.EnumerateDirectories(folder, "*", SearchOption.AllDirectories))
+                File.SetAttributes(dir, FileAttributes.Normal);
+        }
+
+        /// <summary>找出被其他进程独占或无法访问的文件（重试 3 次，容忍杀毒软件等短暂占用）。</summary>
+        private static List<string> GetLockedFiles(string folder)
+        {
+            var locked = new List<string>();
+            foreach (var file in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
+            {
+                bool canOpen = false;
+                for (int attempt = 0; attempt < 3 && !canOpen; attempt++)
+                {
+                    try
+                    {
+                        using var fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        canOpen = true;
+                    }
+                    catch (IOException)
+                    {
+                        System.Threading.Thread.Sleep(200);
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        locked.Add($"{file}（无访问权限）");
+                        canOpen = true;
+                    }
+                }
+                if (!canOpen)
+                    locked.Add(file);
+            }
+            return locked;
         }
     }
 }

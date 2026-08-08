@@ -58,8 +58,6 @@ namespace MultiDesktop
             tblDesktopList.Size = new Size(829, 480);
             tblDesktopList.TabIndex = 0;
             tblDesktopList.CellClick += tblDesktopList_CellClick;
-            tblDesktopList.CellFocused += tblDesktopList_CellFocused;
-            tblDesktopList.Enter += tblDesktopList_Enter;
             // 
             // label1
             // 

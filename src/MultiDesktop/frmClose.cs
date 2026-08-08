@@ -1,5 +1,4 @@
 ﻿using I18N.DotNet;
-using System.Diagnostics;
 using static I18N.DotNet.Localizer;
 
 namespace MultiDesktop

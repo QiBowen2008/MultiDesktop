@@ -51,6 +51,7 @@
             txtNewPassword.Font = new Font("Microsoft YaHei UI", 15F);
             txtNewPassword.Location = new Point(372, 157);
             txtNewPassword.Name = "txtNewPassword";
+            txtNewPassword.PasswordChar = '*';
             txtNewPassword.Size = new Size(276, 73);
             txtNewPassword.TabIndex = 1;
             // 
@@ -59,6 +60,7 @@
             txtNewPasswordAgain.Font = new Font("Microsoft YaHei UI", 15F);
             txtNewPasswordAgain.Location = new Point(372, 274);
             txtNewPasswordAgain.Name = "txtNewPasswordAgain";
+            txtNewPasswordAgain.PasswordChar = '*';
             txtNewPasswordAgain.Size = new Size(276, 73);
             txtNewPasswordAgain.TabIndex = 2;
             // 
@@ -117,6 +119,7 @@
             Controls.Add(txtOldPassword);
             Name = "frmPassword";
             Text = "桌面加密设置";
+            Load += frmPassword_Load;
             ResumeLayout(false);
             PerformLayout();
         }

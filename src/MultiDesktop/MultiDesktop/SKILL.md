@@ -8,7 +8,7 @@ license: MIT
 compatibility: Requires Windows 10+ (build 14393+) and .NET 10.0
 metadata:
   author: Buger (Buger2008)
-  version: "1.1.2"
+  version: "1.3.4.0"
   repository: https://github.com/Qibowen2008/MultiDesktop
   platform: net10.0-windows
   ui-framework: AntdUI v2.4.2
@@ -128,7 +128,7 @@ metadata:
 
 - 目标框架：`net10.0-windows`
 - 支持 AOT 发布 (`PublishAot=true`)
-- 支持 MSIX 打包（包名：`Buger2008.MultiDesktop`，版本 `1.2.3.0`）
+- 支持 MSIX 打包（包名：`Buger2008.MultiDesktop`，版本 `1.3.4.0`）
 - 目标平台：x86 / x64 / ARM / ARM64
 - 默认语言：zh-CN
 
