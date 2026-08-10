@@ -192,6 +192,8 @@ namespace MultiDesktop
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(806, 660);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
             Controls.Add(btnSetPassword);
             Controls.Add(cboWallpaperStyle);
             Controls.Add(label4);

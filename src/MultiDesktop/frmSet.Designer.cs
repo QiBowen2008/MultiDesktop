@@ -126,6 +126,8 @@ namespace MultiDesktop
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(584, 459);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
             Controls.Add(button1);
             Controls.Add(label3);
             Controls.Add(btnClose);
