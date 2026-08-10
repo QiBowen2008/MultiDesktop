@@ -10,7 +10,14 @@
 ## Native AOT publish
 *.nupkg
 *.snupkg
-publish/
+
+## Publish build outputs (NSIS/MSIX scripts tracked; artifacts ignored)
+publish/**/AppPackages/
+publish/**/BundleArtifacts/
+*.appx
+*.appxbundle
+*.msix
+*.msixbundle
 
 ## Visual Studio
 .vs/
