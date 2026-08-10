@@ -45,7 +45,7 @@ namespace MultiDesktop
                 if (args[i] == "--version")
                 {
                     AttachConsole(-1);
-                    Console.WriteLine("MultiDesktop v1.3.4.0");
+                    Console.WriteLine("MultiDesktop v1.3.6.0");
                     return;
                 }
                 if (args[i] == "--help" || args[i] == "-h")
@@ -64,11 +64,12 @@ namespace MultiDesktop
                         return;
                     }
 
-                    // 可选参数：--SetBack <壁纸路径> 启用自定义壁纸，--SetStyle <显示方式> 指定显示方式
+                    // 可选参数：--SetBack <壁纸路径> 启用自定义壁纸，--SetStyle <显示方式> 指定显示方式，
+                    // --SetPassword <密码> 加密桌面（与壁纸参数同为 --AddDesktop 的可选参数）
                     bool enableWallpaper = false;
                     string wallpaperPath = "";
                     string wallpaperStyle = "填充";
-                    bool Encrypt = false;
+                    string? setPassword = null;
                     int j = i + 3;
                     while (j < args.Length)
                     {
@@ -97,12 +98,14 @@ namespace MultiDesktop
                         }
                         else if (args[j] == "--SetPassword")
                         {
-                            if(j + 1 >= args.Length)
+                            if (j + 1 >= args.Length)
                             {
                                 Console.WriteLine("错误: --SetPassword 缺少参数。需要: <密码>");
+                                Console.WriteLine("示例: MultiDesktop --AddDesktop \"私密\" \"D:\\PrivateDesktop\" --SetPassword 123456");
                                 return;
                             }
-                            Encrypt = true;
+                            setPassword = args[j + 1];
+                            j += 2;
                         }
                         else
                         {
@@ -115,21 +118,48 @@ namespace MultiDesktop
                         Console.WriteLine($"错误: 壁纸文件不存在: {wallpaperPath}");
                         return;
                     }
+                    if (!Directory.Exists(args[i + 2]))
+                    {
+                        Console.WriteLine($"错误: 桌面路径不存在: {args[i + 2]}");
+                        return;
+                    }
 
                     InitDesktopListForCli();
+                    string desktopName = args[i + 1];
+                    string desktopPath = args[i + 2];
+                    bool isEncrypt = setPassword != null;
                     try
                     {
-                        // CLI 无法交互输入密码，加密请使用 GUI 中的“桌面加密设置”
-                        DesktopManager.AddDesktop(args[i + 1], args[i + 2], enableWallpaper, wallpaperPath ?? "", wallpaperStyle, false);
-                        Console.WriteLine($"成功添加桌面: {args[i + 1]} -> {args[i + 2]}");
-                        if (Encrypt)
-                            Console.WriteLine("提示: CLI 暂不支持设置密码，如需加密请在图形界面中为桌面设置密码。");
+                        // 先保存桌面配置（加密标记随行写入），再执行加密：
+                        // 与 GUI 流程一致 —— 加密 = 压缩 -> 加密 -> 删除明文文件夹，失败时回滚已写入的行
+                        if (!DesktopManager.AddDesktop(desktopName, desktopPath, enableWallpaper, wallpaperPath ?? "", wallpaperStyle, isEncrypt))
+                        {
+                            Console.WriteLine($"添加失败: 请检查桌面名称是否重复或路径是否有效");
+                            return;
+                        }
+                        Console.WriteLine($"成功添加桌面: {desktopName} -> {desktopPath}");
                         if (enableWallpaper)
                             Console.WriteLine($"已设置壁纸: {wallpaperPath} (显示方式: {wallpaperStyle})");
+                        if (isEncrypt)
+                        {
+                            int id = EncryptManager.GetZipId(desktopName);
+                            EncryptManager.GetZipFile(desktopPath, id, setPassword!).GetAwaiter().GetResult();
+                            Console.WriteLine($"已加密桌面: {desktopName}（文件夹已加密，切换时需输入密码）");
+                        }
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine($"添加失败: {ex.Message}");
+                        // 加密失败时回滚配置行，避免留下“标记已加密但文件夹仍是明文”的脏配置
+                        if (isEncrypt)
+                        {
+                            var row = DesktopManager.DesktopList.Rows.Find(desktopName);
+                            if (row != null)
+                            {
+                                row.Delete();
+                                DesktopManager.DesktopList.WriteXml(AppPaths.DesktopList, System.Data.XmlWriteMode.WriteSchema);
+                            }
+                        }
                     }
                     return;
                 }
@@ -168,6 +198,114 @@ namespace MultiDesktop
                     {
                         Console.WriteLine("当前没有配置任何桌面。");
                         Console.WriteLine("提示: 使用 --AddDesktop <名称> <路径> 添加桌面");
+                    }
+                    return;
+                }
+                if (args[i] == "--ChangePassword")
+                {
+                    AttachConsole(-1);
+                    if (i + 3 >= args.Length)
+                    {
+                        Console.WriteLine("错误: --ChangePassword 缺少参数。需要: <桌面名称> <原密码> <新密码>");
+                        Console.WriteLine("示例: MultiDesktop --ChangePassword \"私密\" 123456 654321");
+                        return;
+                    }
+                    InitDesktopListForCli();
+                    string name = args[i + 1];
+                    string oldPw = args[i + 2];
+                    string newPw = args[i + 3];
+                    var row = DesktopManager.DesktopList.Rows.Find(name);
+                    if (row == null)
+                    {
+                        Console.WriteLine($"错误: 未找到名为 \"{name}\" 的桌面");
+                        Console.WriteLine("提示: 使用 --ListDesktop 查看所有已配置的桌面");
+                        return;
+                    }
+                    string? folder = DesktopManager.GetString(row, 1);
+                    if (string.IsNullOrEmpty(folder))
+                    {
+                        Console.WriteLine("错误: 桌面路径为空");
+                        return;
+                    }
+                    int id = EncryptManager.GetZipId(name);
+                    if (!EncryptManager.HasEncryptedFile(id))
+                    {
+                        Console.WriteLine($"提示: 桌面 \"{name}\" 尚未加密，无需修改密码");
+                        return;
+                    }
+                    if (string.IsNullOrWhiteSpace(newPw))
+                    {
+                        Console.WriteLine("错误: 新密码不能为空");
+                        return;
+                    }
+                    try
+                    {
+                        // 验证原密码（与 GUI 流程一致）：文件夹已解密时用实际解密校验，否则真实解密还原
+                        if (Directory.Exists(folder))
+                            EncryptManager.VerifyPasswordByDecryptAsync(id, oldPw).GetAwaiter().GetResult();
+                        else
+                            EncryptManager.UnZipFile(folder, id, oldPw).GetAwaiter().GetResult();
+                        // 用新密码重新加密（原加密包会被覆盖）
+                        EncryptManager.GetZipFile(folder, id, newPw).GetAwaiter().GetResult();
+                        Console.WriteLine($"已修改桌面 \"{name}\" 的加密密码");
+                    }
+                    catch (PqDecryptionException)
+                    {
+                        Console.WriteLine("错误: 原密码错误");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"修改密码失败: {ex.Message}");
+                    }
+                    return;
+                }
+                if (args[i] == "--RemovePassword")
+                {
+                    AttachConsole(-1);
+                    if (i + 2 >= args.Length)
+                    {
+                        Console.WriteLine("错误: --RemovePassword 缺少参数。需要: <桌面名称> <密码>");
+                        Console.WriteLine("示例: MultiDesktop --RemovePassword \"私密\" 123456");
+                        return;
+                    }
+                    InitDesktopListForCli();
+                    string name = args[i + 1];
+                    string pw = args[i + 2];
+                    var row = DesktopManager.DesktopList.Rows.Find(name);
+                    if (row == null)
+                    {
+                        Console.WriteLine($"错误: 未找到名为 \"{name}\" 的桌面");
+                        Console.WriteLine("提示: 使用 --ListDesktop 查看所有已配置的桌面");
+                        return;
+                    }
+                    string? folder = DesktopManager.GetString(row, 1);
+                    if (string.IsNullOrEmpty(folder))
+                    {
+                        Console.WriteLine("错误: 桌面路径为空");
+                        return;
+                    }
+                    int id = EncryptManager.GetZipId(name);
+                    if (!EncryptManager.HasEncryptedFile(id))
+                    {
+                        Console.WriteLine($"提示: 桌面 \"{name}\" 尚未加密，无需操作");
+                        return;
+                    }
+                    try
+                    {
+                        // 验证密码并删除加密包（文件夹已解密时用实际解密校验，避免旧压缩包覆盖新文件）
+                        EncryptManager.RemoveEncryption(folder, id, pw).GetAwaiter().GetResult();
+                        // 清除是否加密标记并保存
+                        row["是否加密"] = false;
+                        DesktopManager.DesktopList.WriteXml(AppPaths.DesktopList, System.Data.XmlWriteMode.WriteSchema);
+                        Console.WriteLine($"已移除桌面 \"{name}\" 的加密");
+                    }
+                    catch (PqDecryptionException)
+                    {
+                        Console.WriteLine("错误: 密码错误");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"移除加密失败: {ex.Message}");
                     }
                     return;
                 }
@@ -213,7 +351,7 @@ namespace MultiDesktop
 
         private static void ShowHelp()
         {
-            Console.WriteLine(@"MultiDesktop — Windows 多桌面管理工具  v1.3.4.0
+            Console.WriteLine(@"MultiDesktop — Windows 多桌面管理工具  v1.3.6.0
 
 通过修改 Windows 注册表中的桌面路径，实现在多个虚拟桌面文件夹之间
 一键切换。程序可最小化到系统托盘，右键即可快速切换已配置的桌面。
@@ -228,15 +366,18 @@ namespace MultiDesktop
 
   --version                显示版本号
 
-  --AddDesktop <名称> <路径> [--SetBack <壁纸路径>] [--SetStyle <显示方式>]
+  --AddDesktop <名称> <路径> [--SetBack <壁纸路径>] [--SetStyle <显示方式>] [--SetPassword <密码>]
                            添加一个新的桌面配置。
                            名称和路径均需提供，路径必须存在。
                            --SetBack 可选，为桌面设置自定义壁纸（切换到此桌面时自动应用）。
                            --SetStyle 可选，指定壁纸显示方式（默认""填充""），
                            可用值: 填充/适应/拉伸/平铺/居中/跨屏。
+                           --SetPassword 可选，为桌面设置加密密码：桌面文件夹会被
+                           压缩并加密，之后切换到此桌面时需要输入密码才能解锁。
                            示例:
                              MultiDesktop --AddDesktop ""工作"" ""D:\WorkDesktop""
                              MultiDesktop --AddDesktop ""娱乐"" ""E:\GameDesktop"" --SetBack ""D:\pics\game.jpg"" --SetStyle 拉伸
+                             MultiDesktop --AddDesktop ""私密"" ""D:\PrivateDesktop"" --SetPassword 123456
 
   --DeleteDesktop <名称>
                            删除指定名称的桌面配置。
@@ -244,6 +385,18 @@ namespace MultiDesktop
                              MultiDesktop --DeleteDesktop ""工作""
 
   --ListDesktop            列出所有已配置的桌面。
+
+  --ChangePassword <名称> <原密码> <新密码>
+                           修改指定加密桌面的密码，需要提供原密码验证
+                           （通过实际解密校验）。
+                           示例:
+                             MultiDesktop --ChangePassword ""私密"" 123456 654321
+
+  --RemovePassword <名称> <密码>
+                           移除指定桌面的加密保护，需要提供密码验证
+                           （通过实际解密校验）。
+                           示例:
+                             MultiDesktop --RemovePassword ""私密"" 123456
 
 提示:
   - 桌面切换即时生效，无需重启资源管理器。
@@ -755,13 +908,15 @@ namespace MultiDesktop
             if (!File.Exists(encryptedfile))
                 throw new FileNotFoundException("未找到加密文件，无法解锁", encryptedfile);
 
-            Directory.CreateDirectory(folder);
             DeleteIfExists(zipfile);
             try
             {
                 await new PqFileDecryptor().DecryptFileAsync(encryptedfile, zipfile, password);
                 if (!File.Exists(zipfile))
                     throw new IOException("解密失败：未生成压缩包");
+                // 解密成功后才创建目标文件夹：若密码错误，避免留下空文件夹
+                // （否则后续会被误判为“已解密”，跳过真实还原甚至覆盖原加密包）
+                Directory.CreateDirectory(folder);
                 System.IO.Compression.ZipFile.ExtractToDirectory(zipfile, folder, true);
                 File.Delete(zipfile);
             }

@@ -118,7 +118,7 @@ namespace MultiDesktop
             button1.Name = "button1";
             button1.Size = new Size(363, 66);
             button1.TabIndex = 9;
-            button1.Text = "安装Openclaw Skills";
+            button1.Text = "安装 Skills";
             button1.Click += btnInstallSkills_Click;
             // 
             // frmSet
