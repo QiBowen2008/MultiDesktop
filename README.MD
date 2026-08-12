@@ -1,6 +1,6 @@
 # MultiDesktop — Windows 多桌面切换管理
 
-![多桌面切换主界面](pics/1.png)
+![多桌面切换主界面](https://wget.la/https://raw.githubusercontent.com/Buger2008/MultiDesktop/net10rebuild/pics/1.png)
 
 一款基于 .NET 10 的 Windows 多桌面管理工具。通过 Win32 Shell API 修改桌面文件夹路径，实现多个虚拟桌面之间的一键切换——每个"桌面"拥有独立的文件夹，互不干扰，切换无需重启资源管理器。
 
